@@ -62,7 +62,7 @@ export default defineConfig({
   },
 
   // Output configuration
-  output: 'static',
+  output: 'server',
   site: process.env.NODE_ENV === 'production' ? 'https://chezik.eu' : 'http://localhost:3000',
 
   // Compress output
