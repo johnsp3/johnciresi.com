@@ -7,6 +7,19 @@ interface AlbumSelectorProps {
 
 const AlbumSelector: React.FC<AlbumSelectorProps> = ({ className = '' }) => {
   const [selectedAlbumId, setSelectedAlbumId] = useState<string>('fractured');
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Update featured album display when selection changes
   useEffect(() => {
@@ -28,8 +41,21 @@ const AlbumSelector: React.FC<AlbumSelectorProps> = ({ className = '' }) => {
       
       // Set data attribute for FeaturedAlbum to read
       document.body.setAttribute('data-selected-album', selectedAlbumId);
+      
+      // On mobile, scroll to featured album after selection
+      if (isMobile) {
+        setTimeout(() => {
+          const featuredAlbumElement = document.getElementById('featured-album-cover');
+          if (featuredAlbumElement) {
+            featuredAlbumElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'center' 
+            });
+          }
+        }, 100);
+      }
     }
-  }, [selectedAlbumId]);
+  }, [selectedAlbumId, isMobile]);
 
   const handleAlbumSelect = (albumId: string) => {
     setSelectedAlbumId(albumId);

@@ -29,11 +29,24 @@ interface GalleryGridProps {
 const GalleryGrid: React.FC<GalleryGridProps> = ({ categories, onCategoryClick }) => {
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [visibleImages, setVisibleImages] = useState<Set<string>>(new Set());
+  const [isMobile, setIsMobile] = useState(false);
   const imageRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const handleImageLoad = (categoryId: string) => {
     setLoadedImages(prev => new Set(prev).add(categoryId));
   };
+
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Intersection Observer for better performance
   useEffect(() => {
@@ -135,17 +148,39 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ categories, onCategoryClick }
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-700"></div>
             
-            {/* Text Background Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+            {/* Text Background Overlay - Only show on desktop or when mobile popup is open */}
+            {!isMobile && (
+              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+            )}
             
-            {/* Content */}
+            {/* Content - Desktop: Full text, Mobile: Just title + view more button */}
             <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-4 sm:left-6 lg:left-8 right-4 sm:right-6 lg:right-8">
               <h3 className="text-white font-extralight tracking-wide text-lg sm:text-xl mb-2 sm:mb-3 group-hover:text-white/90 transition-colors duration-500">
                 {category.title}
               </h3>
-              <p className="text-white/70 text-xs sm:text-sm font-light leading-relaxed">
-                {category.description}
-              </p>
+              
+              {/* Desktop: Full description */}
+              {!isMobile && (
+                <p className="text-white/70 text-xs sm:text-sm font-light leading-relaxed">
+                  {category.description}
+                </p>
+              )}
+              
+              {/* Mobile: Just view more button */}
+              {isMobile && (
+                <button 
+                  className="text-white/90 hover:text-white text-xs font-medium underline transition-colors duration-200"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // For mobile, we'll show a popup instead of opening the gallery
+                    // This will be handled by the parent component
+                    onCategoryClick(category);
+                  }}
+                >
+                  View more
+                </button>
+              )}
             </div>
             
             {/* Artwork Credit */}

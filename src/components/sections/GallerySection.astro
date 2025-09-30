@@ -1,6 +1,5 @@
 ---
 import MediaGallery from '@/components/media/MediaGallery';
-import { ErrorBoundary } from '@/components/ui';
 ---
 
 <!-- Visual Gallery Section -->
@@ -23,8 +22,6 @@ import { ErrorBoundary } from '@/components/ui';
     </div>
     
     <!-- Media Gallery Component -->
-    <ErrorBoundary client:load>
-      <MediaGallery client:load />
-    </ErrorBoundary>
+    <MediaGallery client:load />
   </div>
 </section>
