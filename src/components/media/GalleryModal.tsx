@@ -44,10 +44,23 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showDescriptionPopup, setShowDescriptionPopup] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
 
   // Minimum distance for swipe
   const minSwipeDistance = 50;
+
+  // Helper function to truncate description for mobile
+  const truncateDescription = (text: string, maxWords: number = 8): string => {
+    const words = text.split(' ');
+    if (words.length <= maxWords) return text;
+    return words.slice(0, maxWords).join(' ') + '...';
+  };
+
+  // Check if description needs truncation (mobile only)
+  const shouldTruncate = (text: string): boolean => {
+    return text.split(' ').length > 8;
+  };
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
@@ -290,14 +303,89 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
               <h3 id="gallery-modal-title" className="text-2xl font-extralight tracking-wide text-white mb-2">
                 {currentItem.title}
               </h3>
-              <p id="gallery-modal-description" className="text-white/70 font-light leading-relaxed mb-2">
+              
+              {/* Desktop: Full description */}
+              <p id="gallery-modal-description" className="hidden sm:block text-white/70 font-light leading-relaxed mb-2">
                 {currentItem.description}
               </p>
+              
+              {/* Mobile: Truncated description with Read more button */}
+              <div className="sm:hidden">
+                <p className="text-white/70 font-light leading-relaxed mb-2">
+                  {shouldTruncate(currentItem.description) 
+                    ? truncateDescription(currentItem.description)
+                    : currentItem.description
+                  }
+                </p>
+                {shouldTruncate(currentItem.description) && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowDescriptionPopup(true);
+                    }}
+                    className="text-white/90 hover:text-white text-sm font-medium underline transition-colors duration-200 mb-2"
+                  >
+                    Read more
+                  </button>
+                )}
+              </div>
+              
               <p className="text-white/50 text-sm font-light">
                 {currentIndex + 1} of {category.items.length} • {category.title}
               </p>
             </motion.div>
           </motion.div>
+
+          {/* Mobile Description Popup */}
+          <AnimatePresence>
+            {showDescriptionPopup && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[100002] flex items-center justify-center bg-black/80 backdrop-blur-sm sm:hidden"
+                onClick={(e) => {
+                  if (e.target === e.currentTarget) {
+                    setShowDescriptionPopup(false);
+                  }
+                }}
+              >
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                  className="relative max-w-sm mx-6 bg-black/70 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                >
+                  {/* Close button */}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowDescriptionPopup(false);
+                    }}
+                    className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200"
+                    aria-label="Close description"
+                  >
+                    <X className="w-4 h-4 text-white" />
+                  </button>
+
+                  {/* Content */}
+                  <h4 className="text-xl font-extralight tracking-wide text-white mb-3 pr-8">
+                    {currentItem.title}
+                  </h4>
+                  <p className="text-white/70 font-light leading-relaxed text-sm">
+                    {currentItem.description}
+                  </p>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>
