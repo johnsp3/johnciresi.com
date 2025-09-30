@@ -43,13 +43,15 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({ className = '' }) => {
     setMessage('');
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('website', formData.website); // Honeypot
-
       const response = await fetch('/api/newsletter', {
         method: 'POST',
-        body: formDataToSend,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          website: formData.website, // Honeypot
+        }),
       });
 
       const result: ApiResponse = await response.json();

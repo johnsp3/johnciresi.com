@@ -39,12 +39,8 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Parse form data
-    const formData = await request.formData();
-    const data = {
-      email: formData.get('email') as string,
-      website: formData.get('website') as string, // Honeypot field
-    };
+    // Parse JSON data
+    const data = await request.json();
 
     // Validate and sanitize input
     const validation = validateNewsletterForm(data);

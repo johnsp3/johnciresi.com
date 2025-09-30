@@ -45,15 +45,17 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = '' }) => {
     setMessage('');
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('message', formData.message);
-      formDataToSend.append('website', formData.website); // Honeypot
-
       const response = await fetch('/api/contact', {
         method: 'POST',
-        body: formDataToSend,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          website: formData.website, // Honeypot
+        }),
       });
 
       const result: ApiResponse = await response.json();
