@@ -28,6 +28,7 @@ interface GalleryModalProps {
   hasNext: boolean;
   hasPrev: boolean;
   currentIndex: number;
+  isMobile?: boolean;
 }
 
 // Gallery Modal Component
@@ -39,7 +40,8 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
   onPrev, 
   hasNext, 
   hasPrev, 
-  currentIndex 
+  currentIndex,
+  isMobile = false
 }) => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -77,6 +79,11 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
+
+    // On mobile, close description popup when swiping
+    if (isMobile && showDescriptionPopup) {
+      setShowDescriptionPopup(false);
+    }
 
     if (isLeftSwipe && hasNext && !isTransitioning) {
       setIsTransitioning(true);
@@ -305,31 +312,25 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
               </h3>
               
               {/* Desktop: Full description */}
-              <p id="gallery-modal-description" className="hidden sm:block text-white/70 font-light leading-relaxed mb-2">
-                {currentItem.description}
-              </p>
-              
-              {/* Mobile: Truncated description with Read more button */}
-              <div className="sm:hidden">
-                <p className="text-white/70 font-light leading-relaxed mb-2">
-                  {shouldTruncate(currentItem.description) 
-                    ? truncateDescription(currentItem.description)
-                    : currentItem.description
-                  }
+              {!isMobile && (
+                <p id="gallery-modal-description" className="text-white/70 font-light leading-relaxed mb-2">
+                  {currentItem.description}
                 </p>
-                {shouldTruncate(currentItem.description) && (
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setShowDescriptionPopup(true);
-                    }}
-                    className="text-white/90 hover:text-white text-sm font-medium underline transition-colors duration-200 mb-2"
-                  >
-                    Read more
-                  </button>
-                )}
-              </div>
+              )}
+              
+              {/* Mobile: Just Read more button */}
+              {isMobile && (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowDescriptionPopup(true);
+                  }}
+                  className="text-white/90 hover:text-white text-sm font-medium underline transition-colors duration-200 mb-2"
+                >
+                  Read more
+                </button>
+              )}
               
               <p className="text-white/50 text-sm font-light">
                 {currentIndex + 1} of {category.items.length} • {category.title}
@@ -339,12 +340,12 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
 
           {/* Mobile Description Popup */}
           <AnimatePresence>
-            {showDescriptionPopup && (
+            {isMobile && showDescriptionPopup && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[100002] flex items-center justify-center bg-black/80 backdrop-blur-sm sm:hidden"
+                className="fixed inset-0 z-[100002] flex items-center justify-center bg-black/80 backdrop-blur-sm"
                 onClick={(e) => {
                   if (e.target === e.currentTarget) {
                     setShowDescriptionPopup(false);
