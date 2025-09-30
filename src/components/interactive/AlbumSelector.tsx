@@ -41,31 +41,28 @@ const AlbumSelector: React.FC<AlbumSelectorProps> = ({ className = '' }) => {
       
       // Set data attribute for FeaturedAlbum to read
       document.body.setAttribute('data-selected-album', selectedAlbumId);
-      
-      // Don't auto-scroll on album selection - let user scroll manually
-      // Scroll will only happen when MP3 player is opened
     }
   }, [selectedAlbumId, isMobile]);
 
   const handleAlbumSelect = (albumId: string) => {
     setSelectedAlbumId(albumId);
+    
+    // On mobile, scroll to featured album area when an album is selected
+    if (isMobile) {
+      setTimeout(() => {
+        const featuredAlbumElement = document.getElementById('featured-album-cover');
+        if (featuredAlbumElement) {
+          featuredAlbumElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+        }
+      }, 100);
+    }
   };
 
   const handleOpenPlayer = () => {
     if (window.openAudioPlayer) {
-      // On mobile, scroll to featured album when opening MP3 player
-      if (isMobile) {
-        setTimeout(() => {
-          const featuredAlbumElement = document.getElementById('featured-album-cover');
-          if (featuredAlbumElement) {
-            featuredAlbumElement.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'center' 
-            });
-          }
-        }, 100);
-      }
-      
       window.openAudioPlayer(selectedAlbumId);
     } else {
       console.warn('Audio player not available. Make sure WorkingAudioHandler is loaded.');
@@ -73,7 +70,7 @@ const AlbumSelector: React.FC<AlbumSelectorProps> = ({ className = '' }) => {
   };
 
   return (
-    <div className={className}>
+    <div className={className} data-album-list>
       {/* Album List */}
       <div className="space-y-8 lg:space-y-12">
         {albums.map((album) => (
