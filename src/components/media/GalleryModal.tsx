@@ -105,6 +105,9 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
   };
   useEffect(() => {
     if (isOpen) {
+      // Hide all page content except the modal to prevent any bleeding
+      document.body.classList.add('gallery-modal-open');
+      
       // Prevent navigation when gallery is open
       const preventNavigation = (e: Event) => {
         e.preventDefault();
@@ -169,6 +172,9 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
       document.body.style.overflow = 'hidden';
       
       return () => {
+        // Remove gallery modal class and restore page content
+        document.body.classList.remove('gallery-modal-open');
+        
         // Remove navigation prevention
         navigationLinks.forEach(link => {
           link.removeEventListener('click', preventNavigation, true);
@@ -204,7 +210,11 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
             width: '100vw',
             height: '100vh',
             isolation: 'isolate',
-            zIndex: 99999
+            zIndex: 99999,
+            // Additional isolation to prevent content bleeding
+            backgroundColor: 'rgba(0, 0, 0, 0.95)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)'
           }}
           onClick={(e) => {
             // Only close if clicking the backdrop, not the image or controls

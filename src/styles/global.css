@@ -35,6 +35,11 @@
   * {
     print-color-adjust: exact;
   }
+
+  /* Gallery modal isolation - hide About Me section when gallery is open */
+  body.gallery-modal-open #about {
+    display: none !important;
+  }
 }
 
 /* Apple-inspired component styles */
