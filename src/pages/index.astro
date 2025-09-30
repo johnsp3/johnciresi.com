@@ -1,0 +1,62 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Navigation, Footer, EBookSection, ErrorBoundary } from '@/components/ui';
+import WorkingAudioHandler from '@/components/audio/WorkingAudioHandler';
+import HeroSection from '@/components/sections/HeroSection.astro';
+import DiscographySection from '@/components/sections/DiscographySection.astro';
+import GallerySection from '@/components/sections/GallerySection.astro';
+import AboutSection from '@/components/sections/AboutSection.astro';
+import ContactSection from '@/components/sections/ContactSection.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout title="John Chezik">
+  <div class="min-h-screen bg-primary-50 dark:bg-primary-950">
+    <!-- Navigation -->
+    <Navigation />
+
+    <!-- Hero Section -->
+    <HeroSection />
+
+    <!-- Discography Section -->
+    <DiscographySection />
+
+    <!-- Section Separator -->
+    <div class="h-20 bg-gray-50"></div>
+
+    <!-- E-Book Section -->
+    <EBookSection />
+
+    <!-- Section Separator -->
+    <div class="h-20 bg-gray-50"></div>
+
+    <!-- Visual Gallery Section -->
+    <GallerySection />
+
+    <!-- Section Separator -->
+    <div class="h-20 bg-gray-50"></div>
+
+    <!-- About Me Section -->
+    <AboutSection />
+
+    <!-- Section Separator -->
+    <div class="h-20 bg-white relative">
+      <div class="absolute inset-0">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <ContactSection />
+
+    <!-- Footer -->
+    <Footer />
+  </div>
+
+  <!-- Audio Modal Handler -->
+  <ErrorBoundary client:load>
+    <WorkingAudioHandler client:load />
+  </ErrorBoundary>
+
+</BaseLayout>

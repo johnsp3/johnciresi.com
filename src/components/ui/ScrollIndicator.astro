@@ -1,0 +1,12 @@
+---
+export interface Props {
+  class?: string;
+}
+---
+
+<div class={`absolute bottom-12 left-1/2 transform -translate-x-1/2 text-white/40 ${Astro.props.class || ''}`}>
+  <div class="flex flex-col items-center space-y-3">
+    <div class="w-px h-16 bg-gradient-to-b from-white/60 to-transparent"></div>
+    <div class="text-xs tracking-[0.2em] uppercase font-light">Scroll</div>
+  </div>
+</div>

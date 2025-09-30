@@ -1,0 +1,33 @@
+---
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<nav class={`fixed top-0 left-0 right-0 z-50 bg-primary-950/90 backdrop-blur-2xl border-b border-primary-800/20 ${className}`}>
+  <div class="max-w-7xl mx-auto px-6 py-6">
+    <div class="flex items-center justify-between">
+      <div class="text-xl font-extralight tracking-[0.2em] text-primary-50">
+        JOHN CHEZIK
+      </div>
+      
+      <div class="hidden md:flex items-center space-x-16">
+        <a href="#music" class="text-primary-300 hover:text-primary-50 transition-all duration-500 text-xs font-light tracking-[0.15em] uppercase relative group">
+          <span class="relative z-10">Discography</span>
+          <div class="absolute -bottom-1 left-0 w-0 h-px bg-primary-50 transition-all duration-500 group-hover:w-full"></div>
+        </a>
+        <a href="#gallery" class="text-primary-300 hover:text-primary-50 transition-all duration-500 text-xs font-light tracking-[0.15em] uppercase relative group">
+          <span class="relative z-10">Visuals</span>
+          <div class="absolute -bottom-1 left-0 w-0 h-px bg-primary-50 transition-all duration-500 group-hover:w-full"></div>
+        </a>
+        <a href="#contact" class="text-primary-300 hover:text-primary-50 transition-all duration-500 text-xs font-light tracking-[0.15em] uppercase relative group">
+          <span class="relative z-10">Contact</span>
+          <div class="absolute -bottom-1 left-0 w-0 h-px bg-primary-50 transition-all duration-500 group-hover:w-full"></div>
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,76 @@
+---
+export interface Props {
+  type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search';
+  placeholder?: string;
+  value?: string;
+  required?: boolean;
+  disabled?: boolean;
+  class?: string;
+  id?: string;
+  name?: string;
+  label?: string;
+  error?: string;
+  variant?: 'default' | 'dark';
+}
+
+const { 
+  type = 'text',
+  placeholder = '',
+  value = '',
+  required = false,
+  disabled = false,
+  class: className = '',
+  id,
+  name,
+  label,
+  error,
+  variant = 'default'
+} = Astro.props;
+
+const baseClasses = 'w-full px-6 py-4 transition-all duration-500 focus:outline-none resize-none';
+
+const variantClasses = {
+  default: 'bg-white/5 border border-white/20 text-white placeholder-white/50 focus:border-white/40 backdrop-blur-sm',
+  dark: 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:border-gray-400 focus:bg-white'
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
+
+const inputId = id || name || `input-${Math.random().toString(36).substring(2, 11)}`;
+---
+
+<div class="space-y-2">
+  {label && (
+    <label for={inputId} class="block text-sm font-light tracking-[0.1em] text-white/80 uppercase">
+      {label}
+      {required && <span class="text-red-400 ml-1">*</span>}
+    </label>
+  )}
+  
+  {type === 'textarea' as any ? (
+    <textarea
+      id={inputId}
+      name={name}
+      placeholder={placeholder}
+      required={required}
+      disabled={disabled}
+      class={classes}
+      rows="6"
+    >{value}</textarea>
+  ) : (
+    <input
+      type={type}
+      id={inputId}
+      name={name}
+      placeholder={placeholder}
+      value={value}
+      required={required}
+      disabled={disabled}
+      class={classes}
+    />
+  )}
+  
+  {error && (
+    <p class="text-red-400 text-sm font-light">{error}</p>
+  )}
+</div>

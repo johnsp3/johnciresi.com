@@ -1,0 +1,70 @@
+---
+import { ErrorBoundary } from '@/components/ui';
+import NewsletterForm from '@/components/interactive/NewsletterForm';
+import ContactForm from '@/components/interactive/ContactForm';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<!-- Contact Section -->
+<section id="contact" class={`py-40 bg-black relative overflow-hidden ${className}`}>
+  <!-- Sophisticated Background Elements -->
+  <div class="absolute inset-0">
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-white/3 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/2 rounded-full blur-3xl"></div>
+  </div>
+  
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="text-center mb-24">
+      <h2 class="text-6xl sm:text-7xl font-extralight tracking-tight text-white mb-8">
+        CONTACT
+      </h2>
+      <div class="w-24 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto mb-12"></div>
+      <p class="text-xl text-white/70 font-light tracking-wide max-w-3xl mx-auto leading-relaxed">
+        For collaborations and media inquiries
+      </p>
+    </div>
+    
+    <div class="max-w-3xl mx-auto">
+      <!-- Newsletter Subscription -->
+      <div class="mb-20">
+        <div class="text-center mb-12">
+          <h3 class="text-3xl sm:text-4xl font-extralight tracking-tight text-white mb-6">
+            Stay Connected
+          </h3>
+          <div class="w-16 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto mb-8"></div>
+          <p class="text-lg text-white/70 font-light tracking-wide max-w-2xl mx-auto leading-relaxed">
+            Subscribe to receive updates on new releases, exclusive content, and behind-the-scenes insights
+          </p>
+        </div>
+        
+        <ErrorBoundary client:load>
+          <NewsletterForm client:load />
+        </ErrorBoundary>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="pt-8 border-t border-white/10">
+        <div class="text-center mb-12">
+          <h3 class="text-3xl sm:text-4xl font-extralight tracking-tight text-white mb-6">
+            Get In Touch
+          </h3>
+          <div class="w-16 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto mb-8"></div>
+          <p class="text-lg text-white/70 font-light tracking-wide max-w-2xl mx-auto leading-relaxed">
+            For collaborations, media inquiries, and business opportunities
+          </p>
+        </div>
+        
+        <ErrorBoundary client:load>
+          <ContactForm client:load />
+        </ErrorBoundary>
+      </div>
+    </div>
+  </div>
+</section>

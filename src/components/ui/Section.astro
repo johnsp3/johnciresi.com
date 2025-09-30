@@ -1,0 +1,63 @@
+---
+export interface Props {
+  variant?: 'default' | 'dark' | 'light' | 'gradient';
+  padding?: 'sm' | 'md' | 'lg' | 'xl';
+  class?: string;
+  id?: string;
+}
+
+const { 
+  variant = 'default', 
+  padding = 'xl', 
+  class: className = '',
+  id
+} = Astro.props;
+
+const baseClasses = 'relative overflow-hidden';
+
+const variantClasses = {
+  default: 'bg-white',
+  dark: 'bg-black',
+  light: 'bg-gray-50',
+  gradient: 'bg-gradient-to-br from-gray-950 via-black to-gray-900'
+};
+
+const paddingClasses = {
+  sm: 'py-16',
+  md: 'py-20',
+  lg: 'py-24',
+  xl: 'py-32'
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${paddingClasses[padding]} ${className}`;
+---
+
+<section class={classes} id={id}>
+  <!-- Sophisticated Background Elements -->
+  <div class="absolute inset-0">
+    {variant === 'dark' && (
+      <>
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-white/3 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/2 rounded-full blur-3xl"></div>
+      </>
+    )}
+    {variant === 'light' && (
+      <>
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
+      </>
+    )}
+    {variant === 'default' && (
+      <>
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent"></div>
+      </>
+    )}
+  </div>
+  
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <slot />
+  </div>
+</section>

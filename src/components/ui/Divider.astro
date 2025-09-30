@@ -1,0 +1,31 @@
+---
+export interface Props {
+  variant?: 'default' | 'white' | 'gray';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { 
+  variant = 'default', 
+  size = 'md', 
+  class: className = '' 
+} = Astro.props;
+
+const baseClasses = 'mx-auto';
+
+const variantClasses = {
+  default: 'bg-gradient-to-r from-transparent via-black/40 to-transparent',
+  white: 'bg-gradient-to-r from-transparent via-white/60 to-transparent',
+  gray: 'bg-gradient-to-r from-transparent via-gray-400/60 to-transparent'
+};
+
+const sizeClasses = {
+  sm: 'w-16 h-px',
+  md: 'w-24 h-px',
+  lg: 'w-32 h-px'
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+---
+
+<div class={classes}></div>

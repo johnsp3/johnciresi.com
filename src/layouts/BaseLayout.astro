@@ -1,0 +1,138 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+}
+
+const { title, description = "Professional musician with 50,000 followers. Experience beautiful music, stunning visuals, and premium audio streaming.", image = "/images/og-image.jpg", canonical } = Astro.props;
+
+const canonicalURL = new URL(canonical || Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="John Chezik - Musician" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
+    <meta property="twitter:creator" content="@johnchezik" />
+    <meta property="twitter:site" content="@johnchezik" />
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="John Chezik" />
+    <meta name="keywords" content="John Chezik, musician, singer, guitarist, songwriter, rock music, hard rock, studio musician, visual artist, music, albums, discography" />
+    <meta name="language" content="en" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "John Chezik",
+      "description": "Professional musician, singer, guitarist, songwriter, and visual artist",
+      "url": "https://chezik.eu",
+      "image": "https://chezik.eu/images/og-image.jpg",
+      "sameAs": [
+        "https://twitter.com/johnchezik",
+        "https://instagram.com/johnchezik"
+      ],
+      "jobTitle": "Musician",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "John Chezik Music"
+      },
+      "alumniOf": "Music Industry",
+      "knowsAbout": ["Music", "Rock Music", "Hard Rock", "Songwriting", "Guitar", "Visual Art"],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Musician",
+        "occupationLocation": {
+          "@type": "Place",
+          "name": "United States"
+        }
+      }
+    }
+    </script>
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="msapplication-TileColor" content="#3b82f6" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-primary-50 dark:bg-primary-950 text-primary-900 dark:text-primary-50 transition-colors duration-300">
+    <!-- Skip links for accessibility -->
+    <div class="sr-only focus-within:not-sr-only focus-within:absolute focus-within:top-4 focus-within:left-4 z-50">
+      <a href="#main-content" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only">
+        Skip to main content
+      </a>
+      <a href="#music" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only">
+        Skip to discography
+      </a>
+      <a href="#gallery" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only">
+        Skip to gallery
+      </a>
+      <a href="#contact" class="block bg-accent-600 text-white px-4 py-2 rounded-lg focus:not-sr-only">
+        Skip to contact
+      </a>
+    </div>
+    
+    <!-- Main content -->
+    <main id="main-content">
+      <slot />
+    </main>
+    
+    <!-- Vercel Analytics - Will be added back when ready for production -->
+    
+    <!-- Theme detection script -->
+    <script is:inline>
+      // Theme detection and application
+      (function() {
+        const theme = localStorage.getItem('theme') || 
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        
+        // Update theme preference
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+          if (!localStorage.getItem('theme')) {
+            document.documentElement.classList.toggle('dark', e.matches);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

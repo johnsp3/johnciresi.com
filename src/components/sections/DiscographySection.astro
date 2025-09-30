@@ -1,0 +1,30 @@
+---
+import { Section, Heading, Divider, ErrorBoundary } from '@/components/ui';
+import AlbumSelector from '@/components/interactive/AlbumSelector';
+import FeaturedAlbum from '@/components/interactive/FeaturedAlbum';
+---
+
+<!-- Discography Section -->
+<Section id="music" variant="default" padding="xl">
+  <div class="text-center mb-24">
+    <Heading level={2} variant="section" class="text-black mb-8">
+      DISCOGRAPHY
+    </Heading>
+    <Divider variant="default" size="md" class="mb-12" />
+    <p class="text-xl text-gray-600 font-light tracking-wide max-w-3xl mx-auto leading-relaxed">
+      A collection of my albums spanning rock, hard rock, and instrumental work
+    </p>
+  </div>
+    
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+    <!-- Featured Album -->
+    <ErrorBoundary client:load>
+      <FeaturedAlbum client:load />
+    </ErrorBoundary>
+      
+    <!-- Album List -->
+    <ErrorBoundary client:load>
+      <AlbumSelector client:load />
+    </ErrorBoundary>
+  </div>
+</Section>

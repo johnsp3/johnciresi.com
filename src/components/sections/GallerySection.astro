@@ -1,0 +1,30 @@
+---
+import MediaGallery from '@/components/media/MediaGallery';
+import { ErrorBoundary } from '@/components/ui';
+---
+
+<!-- Visual Gallery Section -->
+<section id="gallery" class="py-40 bg-gray-50 relative overflow-hidden">
+  <!-- Sophisticated Background Elements -->
+  <div class="absolute inset-0">
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
+  </div>
+  
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="text-center mb-24">
+      <h2 class="text-6xl sm:text-7xl font-extralight tracking-tight text-black mb-8">
+        VISUALS
+      </h2>
+      <div class="w-24 h-px bg-gradient-to-r from-transparent via-gray-400/60 to-transparent mx-auto mb-12"></div>
+      <p class="text-xl text-gray-600 font-light tracking-wide max-w-3xl mx-auto leading-relaxed">
+        Photos and moments from the studio
+      </p>
+    </div>
+    
+    <!-- Media Gallery Component -->
+    <ErrorBoundary client:load>
+      <MediaGallery client:load />
+    </ErrorBoundary>
+  </div>
+</section>

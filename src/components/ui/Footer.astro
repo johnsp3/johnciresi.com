@@ -1,0 +1,17 @@
+---
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<footer class={`py-20 bg-black border-t border-white/5 relative ${className}`}>
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center">
+      <p class="text-white/40 text-sm font-light tracking-[0.1em]">
+        © 2025 John Chezik. All rights reserved. | <a href="/privacy-policy" class="text-white/40 hover:text-white/60 transition-colors duration-300">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+</footer>

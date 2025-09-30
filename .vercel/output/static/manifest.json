@@ -1,0 +1,21 @@
+{
+  "name": "Chezik - Professional Musician",
+  "short_name": "Chezik",
+  "description": "Professional musician with 50,000 followers. Experience beautiful music, stunning visuals, and premium audio streaming.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["music", "entertainment", "lifestyle"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

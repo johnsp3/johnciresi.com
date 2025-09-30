@@ -1,0 +1,40 @@
+---
+export interface Props {
+  variant?: 'default' | 'elevated' | 'outlined' | 'glass';
+  hover?: boolean;
+  class?: string;
+  href?: string;
+  target?: string;
+}
+
+const { 
+  variant = 'default', 
+  hover = true, 
+  class: className = '',
+  href,
+  target
+} = Astro.props;
+
+const baseClasses = 'relative overflow-hidden transition-all duration-700';
+
+const variantClasses = {
+  default: 'bg-white border border-gray-200/20',
+  elevated: 'bg-white shadow-2xl border border-gray-200/10',
+  outlined: 'bg-transparent border border-white/20',
+  glass: 'bg-white/5 backdrop-blur-xl border border-white/10'
+};
+
+const hoverClasses = hover ? 'group cursor-pointer hover:-translate-y-2 hover:shadow-2xl' : '';
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${hoverClasses} ${className}`;
+
+const Tag = href ? 'a' : 'div';
+const tagProps = href ? { href, target } : {};
+---
+
+<Tag class={classes} {...tagProps}>
+  <slot />
+  {hover && (
+    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+  )}
+</Tag>
