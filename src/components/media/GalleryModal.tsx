@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -41,6 +41,41 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
   hasPrev, 
   currentIndex 
 }) => {
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  // Minimum distance for swipe
+  const minSwipeDistance = 50;
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && hasNext && !isTransitioning) {
+      setIsTransitioning(true);
+      onNext();
+      setTimeout(() => setIsTransitioning(false), 200);
+    }
+    if (isRightSwipe && hasPrev && !isTransitioning) {
+      setIsTransitioning(true);
+      onPrev();
+      setTimeout(() => setIsTransitioning(false), 200);
+    }
+  };
   useEffect(() => {
     if (isOpen) {
       // Prevent navigation when gallery is open
@@ -180,12 +215,16 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                onPrev();
+                if (!isTransitioning) {
+                  setIsTransitioning(true);
+                  onPrev();
+                  setTimeout(() => setIsTransitioning(false), 200);
+                }
               }}
-              className="absolute left-6 top-1/2 -translate-y-1/2 z-[10000] p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20"
+              className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-[10000] p-2 sm:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/20 touch-manipulation"
               aria-label="Previous image"
             >
-              <ChevronLeft className="w-6 h-6 text-white" />
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </motion.button>
           )}
 
@@ -197,12 +236,16 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                onNext();
+                if (!isTransitioning) {
+                  setIsTransitioning(true);
+                  onNext();
+                  setTimeout(() => setIsTransitioning(false), 200);
+                }
               }}
-              className="absolute right-6 top-1/2 -translate-y-1/2 z-[10000] p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20"
+              className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-[10000] p-2 sm:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/20 touch-manipulation"
               aria-label="Next image"
             >
-              <ChevronRight className="w-6 h-6 text-white" />
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </motion.button>
           )}
 
@@ -211,20 +254,29 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            transition={{ type: "spring", damping: 30, stiffness: 400, duration: 0.3 }}
             className="relative max-w-7xl max-h-[90vh] mx-6 z-[100001]"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
             }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
             {/* Image */}
             <img
+              ref={imageRef}
               src={currentItem.src}
               alt={`${currentItem.alt} - Image ${currentIndex + 1} of ${category.items.length} in ${category.title} gallery`}
-              className="max-w-full max-h-[90vh] object-contain rounded-2xl"
+              className="max-w-full max-h-[90vh] object-contain rounded-2xl transition-opacity duration-200"
               loading="eager"
               decoding="async"
+              style={{ 
+                willChange: 'transform',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)'
+              }}
             />
 
             {/* Image Info */}

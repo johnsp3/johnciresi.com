@@ -17,14 +17,14 @@ import FeaturedAlbum from '@/components/interactive/FeaturedAlbum';
   </div>
     
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-    <!-- Featured Album -->
-    <ErrorBoundary client:load>
-      <FeaturedAlbum client:load />
-    </ErrorBoundary>
-      
     <!-- Album List -->
     <ErrorBoundary client:load>
       <AlbumSelector client:load />
+    </ErrorBoundary>
+      
+    <!-- Featured Album -->
+    <ErrorBoundary client:load>
+      <FeaturedAlbum client:load />
     </ErrorBoundary>
   </div>
 </Section>
