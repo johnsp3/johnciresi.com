@@ -29,6 +29,9 @@ interface GalleryModalProps {
   hasPrev: boolean;
   currentIndex: number;
   isMobile?: boolean;
+  onNavigate?: () => void; // Callback when navigating between photos
+  showDescriptionPopup?: boolean;
+  onToggleDescriptionPopup?: (show: boolean) => void;
 }
 
 // Gallery Modal Component
@@ -41,12 +44,14 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
   hasNext, 
   hasPrev, 
   currentIndex,
-  isMobile = false
+  isMobile = false,
+  onNavigate,
+  showDescriptionPopup = false,
+  onToggleDescriptionPopup
 }) => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [showDescriptionPopup, setShowDescriptionPopup] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
 
   // Minimum distance for swipe
@@ -82,17 +87,19 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
 
     // On mobile, close description popup when swiping
     if (isMobile && showDescriptionPopup) {
-      setShowDescriptionPopup(false);
+      onToggleDescriptionPopup?.(false);
     }
 
     if (isLeftSwipe && hasNext && !isTransitioning) {
       setIsTransitioning(true);
       onNext();
+      onNavigate?.(); // Call navigation callback
       setTimeout(() => setIsTransitioning(false), 200);
     }
     if (isRightSwipe && hasPrev && !isTransitioning) {
       setIsTransitioning(true);
       onPrev();
+      onNavigate?.(); // Call navigation callback
       setTimeout(() => setIsTransitioning(false), 200);
     }
   };
@@ -238,6 +245,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
                 if (!isTransitioning) {
                   setIsTransitioning(true);
                   onPrev();
+                  onNavigate?.(); // Call navigation callback
                   setTimeout(() => setIsTransitioning(false), 200);
                 }
               }}
@@ -259,6 +267,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
                 if (!isTransitioning) {
                   setIsTransitioning(true);
                   onNext();
+                  onNavigate?.(); // Call navigation callback
                   setTimeout(() => setIsTransitioning(false), 200);
                 }
               }}
@@ -299,43 +308,50 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
               }}
             />
 
-            {/* Image Info */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ delay: 0.2 }}
-              className="absolute bottom-6 left-6 right-6 bg-black/50 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
-            >
-              <h3 id="gallery-modal-title" className="text-2xl font-extralight tracking-wide text-white mb-2">
-                {currentItem.title}
-              </h3>
-              
-              {/* Desktop: Full description */}
-              {!isMobile && (
+            {/* Desktop: Full Image Info */}
+            {!isMobile && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.2 }}
+                className="absolute bottom-6 left-6 right-6 bg-black/50 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+              >
+                <h3 id="gallery-modal-title" className="text-2xl font-extralight tracking-wide text-white mb-2">
+                  {currentItem.title}
+                </h3>
                 <p id="gallery-modal-description" className="text-white/70 font-light leading-relaxed mb-2">
                   {currentItem.description}
                 </p>
-              )}
-              
-              {/* Mobile: Just Read more button */}
-              {isMobile && (
+                <p className="text-white/50 text-sm font-light">
+                  {currentIndex + 1} of {category.items.length} • {category.title}
+                </p>
+              </motion.div>
+            )}
+
+            {/* Mobile: Small Read More Strip */}
+            {isMobile && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.2 }}
+                className="absolute bottom-6 left-6 right-6"
+              >
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    setShowDescriptionPopup(true);
+                    onToggleDescriptionPopup?.(true);
                   }}
-                  className="text-white/90 hover:text-white text-sm font-medium underline transition-colors duration-200 mb-2"
+                  className="w-full bg-black/30 backdrop-blur-sm rounded-lg p-3 border border-white/20 hover:bg-black/40 transition-all duration-200"
                 >
-                  Read more
+                  <p className="text-white/90 text-sm font-medium text-center">
+                    Read more
+                  </p>
                 </button>
-              )}
-              
-              <p className="text-white/50 text-sm font-light">
-                {currentIndex + 1} of {category.items.length} • {category.title}
-              </p>
-            </motion.div>
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Mobile Description Popup */}
@@ -348,7 +364,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
                 className="fixed inset-0 z-[100002] flex items-center justify-center bg-black/80 backdrop-blur-sm"
                 onClick={(e) => {
                   if (e.target === e.currentTarget) {
-                    setShowDescriptionPopup(false);
+                    onToggleDescriptionPopup?.(false);
                   }
                 }}
               >
@@ -368,7 +384,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      setShowDescriptionPopup(false);
+                      onToggleDescriptionPopup?.(false);
                     }}
                     className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200"
                     aria-label="Close description"

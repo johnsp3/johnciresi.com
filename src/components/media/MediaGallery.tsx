@@ -13,6 +13,7 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({ className = '' }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [showMobilePopup, setShowMobilePopup] = useState(false);
+  const [showDescriptionPopup, setShowDescriptionPopup] = useState(false);
 
   // Detect mobile devices
   useEffect(() => {
@@ -40,6 +41,7 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({ className = '' }) => {
     setSelectedCategory(null);
     setCurrentImageIndex(0);
     setShowMobilePopup(false);
+    setShowDescriptionPopup(false);
   }, []);
 
   const closeMobilePopup = useCallback(() => {
@@ -58,6 +60,17 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({ className = '' }) => {
       setCurrentImageIndex(prev => prev - 1);
     }
   }, [currentImageIndex]);
+
+  const handleNavigate = useCallback(() => {
+    // Close description popup when navigating between photos on mobile
+    if (isMobile) {
+      setShowDescriptionPopup(false);
+    }
+  }, [isMobile]);
+
+  const handleToggleDescriptionPopup = useCallback((show: boolean) => {
+    setShowDescriptionPopup(show);
+  }, []);
 
   return (
     <div className={`w-full ${className}`}>
@@ -78,6 +91,9 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({ className = '' }) => {
         hasPrev={currentImageIndex > 0}
         currentIndex={currentImageIndex}
         isMobile={isMobile}
+        onNavigate={handleNavigate}
+        showDescriptionPopup={showDescriptionPopup}
+        onToggleDescriptionPopup={handleToggleDescriptionPopup}
       />
     </div>
   );
