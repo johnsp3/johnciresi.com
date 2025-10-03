@@ -67,7 +67,7 @@ export async function sendNewsletterWelcome(data: NewsletterData, unsubscribeTok
   const html = getNewsletterWelcomeTemplate(templateData);
 
   const result = await resend.emails.send({
-    from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
+    from: `${(process.env.FROM_NAME || 'John Ciresi').replace(/_/g, ' ')} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
     to: [data.email],
     subject: 'Welcome to John Ciresi\'s Newsletter! 🎵',
     html,
@@ -97,7 +97,7 @@ export async function sendContactConfirmation(data: ContactFormData): Promise<vo
   const html = getContactConfirmationTemplate(templateData);
 
   const result = await resend.emails.send({
-    from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
+    from: `${(process.env.FROM_NAME || 'John Ciresi').replace(/_/g, ' ')} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
     to: [data.email],
     subject: 'Message Received - John Ciresi',
     html,
@@ -127,7 +127,7 @@ export async function sendContactNotification(data: ContactFormData): Promise<vo
   const html = getContactNotificationTemplate(templateData);
 
   const result = await resend.emails.send({
-    from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
+    from: `${(process.env.FROM_NAME || 'John Ciresi').replace(/_/g, ' ')} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
     to: [process.env.TO_EMAIL || 'media@johnciresi.com'],
     subject: `New Contact Form Submission from ${data.name}`,
     html,
@@ -156,7 +156,7 @@ export async function sendUnsubscribeConfirmation(data: NewsletterData): Promise
   const html = getUnsubscribeConfirmationTemplate(templateData);
 
   const result = await resend.emails.send({
-    from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
+    from: `${(process.env.FROM_NAME || 'John Ciresi').replace(/_/g, ' ')} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
     to: [data.email],
     subject: 'Unsubscribed from John Ciresi\'s Newsletter',
     html,

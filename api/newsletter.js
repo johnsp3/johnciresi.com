@@ -244,7 +244,7 @@ export default async function handler(request, response) {
       const html = getNewsletterWelcomeTemplate(templateData);
       
       await resend.emails.send({
-        from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
+        from: `${(process.env.FROM_NAME || 'John Ciresi').replace(/_/g, ' ')} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
         to: [subscriber.email],
         subject: 'Welcome to John Ciresi\'s Newsletter! 🎵',
         html,

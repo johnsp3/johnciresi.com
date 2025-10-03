@@ -238,7 +238,7 @@ export default async function handler(request, response) {
     try {
       const confirmationHtml = getContactConfirmationTemplate(sanitized);
       await resend.emails.send({
-        from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
+        from: `${(process.env.FROM_NAME || 'John Ciresi').replace(/_/g, ' ')} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
         to: [sanitized.email],
         subject: 'Message Received - John Ciresi',
         html: confirmationHtml,
@@ -252,7 +252,7 @@ export default async function handler(request, response) {
     try {
       const notificationHtml = getContactNotificationTemplate(sanitized);
       await resend.emails.send({
-        from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
+        from: `${(process.env.FROM_NAME || 'John Ciresi').replace(/_/g, ' ')} <${process.env.FROM_EMAIL || 'hello@johnciresi.com'}>`,
         to: [process.env.TO_EMAIL || 'media@johnciresi.com'],
         subject: `New Contact Form Submission from ${sanitized.name}`,
         html: notificationHtml,
