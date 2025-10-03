@@ -30,7 +30,7 @@
 
 ## Overview
 
-This guide provides a complete reference for adding new albums to the John Chezik musician website. The system uses a data-driven approach where all albums follow the same structure and functionality.
+This guide provides a complete reference for adding new albums to the John Ciresi musician website. The system uses a data-driven approach where all albums follow the same structure and functionality.
 
 ## System Architecture
 
@@ -91,7 +91,7 @@ public/
     {
       id: 'album-id-1',                    // Unique track identifier
       title: 'Track Name',                 // Display name
-      artist: 'John Chezik',               // Always "John Chezik"
+      artist: 'John Ciresi',               // Always "John Ciresi"
       duration: 180,                       // Duration in seconds
       url: '/audio/Track Name.mp3',        // File path
       cover: '/images/albums/Album Name Album Cover.png'  // Same as album cover
@@ -117,7 +117,7 @@ public/
     {
       id: 'fractured-1',
       title: "Don't Say It's Over",
-      artist: 'John Chezik',
+      artist: 'John Ciresi',
       duration: 180,
       url: "/audio/Don't Say It's Over.mp3",
       cover: '/images/albums/Fractured 2024 Album Cover.png'
@@ -125,7 +125,7 @@ public/
     {
       id: 'fractured-2',
       title: 'Love Can Hurt So Bad',
-      artist: 'John Chezik',
+      artist: 'John Ciresi',
       duration: 180,
       url: '/audio/Love Can Hurt So Bad.mp3',
       cover: '/images/albums/Fractured 2024 Album Cover.png'
@@ -148,7 +148,7 @@ public/
     {
       id: 'visual-man-1',
       title: "I'm The Visual Man",
-      artist: 'John Chezik',
+      artist: 'John Ciresi',
       duration: 180,
       url: "/audio/I'm The Visual Man.mp3",
       cover: '/images/albums/The Visual Man Album Cover 2023.png'
@@ -156,7 +156,7 @@ public/
     {
       id: 'visual-man-2',
       title: "Losing You",
-      artist: 'John Chezik',
+      artist: 'John Ciresi',
       duration: 180,
       url: '/audio/Losing You.mp3',
       cover: '/images/albums/The Visual Man Album Cover 2023.png'
@@ -179,7 +179,7 @@ public/
     {
       id: 'revealing-1',
       title: 'Baby Please',
-      artist: 'John Chezik',
+      artist: 'John Ciresi',
       duration: 180,
       url: '/audio/Baby Please.mp3',
       cover: '/images/albums/The Revealing Album Cover.png'
@@ -187,7 +187,7 @@ public/
     {
       id: 'revealing-2',
       title: 'I Miss Your Touch',
-      artist: 'John Chezik',
+      artist: 'John Ciresi',
       duration: 180,
       url: '/audio/I Miss Your Touch.mp3',
       cover: '/images/albums/The Revealing Album Cover.png'
@@ -314,7 +314,7 @@ public/
 When adding a new album, provide information in this format:
 
 ```
-Artist Name: John Chezik
+Artist Name: John Ciresi
 Album Name: [Album Name]
 Track Names: [Track 1], [Track 2], [Track 3], ...
 Year: [Year]
@@ -324,7 +324,7 @@ Genre: [Genre/Description]
 Example:
 
 ```
-Artist Name: John Chezik
+Artist Name: John Ciresi
 Album Name: Midnight Dreams
 Track Names: Midnight Dreams, City Lights, Lost in Time
 Year: 2025

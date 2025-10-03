@@ -1,4 +1,4 @@
-# John Chezik - Professional Musician Website
+# John Ciresi - Professional Musician Website
 
 A sophisticated, enterprise-grade musician website built with Astro, React, and TypeScript. Features a beautiful Apple-inspired design, advanced MP3 player, interactive gallery, and responsive layout.
 
@@ -75,7 +75,7 @@ src/
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd chezik.eu
+cd johnciresi.com
 
 # Install dependencies
 npm install
@@ -184,7 +184,7 @@ See `MP3_PLAYER_ARCHITECTURE.md` for technical details about the audio system.
 
 ## 📄 License
 
-This project is for personal use by John Chezik. All rights reserved.
+This project is for personal use by John Ciresi. All rights reserved.
 
 ## 🚨 CRITICAL GALLERY FIX - PERMANENT RESOLUTION
 

@@ -1,4 +1,4 @@
-# Deployment Guide - John Chezik Website
+# Deployment Guide - John Ciresi Website
 
 ## 🚀 Vercel Deployment Instructions
 
@@ -15,14 +15,14 @@ In your Vercel dashboard, add these environment variables:
 ```bash
 # Resend Configuration
 RESEND_API_KEY=re_ATnzc1qj_FeEQaa9GLbjTPK2JXtf9FpgS
-RESEND_FROM_EMAIL=noreply@chezik.eu
-RESEND_FROM_NAME="John Chezik"
+RESEND_FROM_EMAIL=noreply@johnciresi.com
+RESEND_FROM_NAME="John Ciresi"
 
 # Site Configuration
-NEXT_PUBLIC_BASE_URL=https://chezik.eu
-NEXT_PUBLIC_SITE_NAME="John Chezik"
-FROM_EMAIL=noreply@chezik.eu
-CONTACT_EMAIL=media@chezik.eu
+NEXT_PUBLIC_BASE_URL=https://johnciresi.com
+NEXT_PUBLIC_SITE_NAME="John Ciresi"
+FROM_EMAIL=noreply@johnciresi.com
+CONTACT_EMAIL=media@johnciresi.com
 
 # Security Keys
 EMAIL_SECRET=jc_2024_secure_email_validation_key_7f8a9b2c
@@ -57,7 +57,7 @@ NEXT_TELEMETRY_DISABLED=1
 1. **Add Custom Domain**
    - In Vercel dashboard, go to your project
    - Navigate to "Domains"
-   - Add `chezik.eu` as custom domain
+   - Add `johnciresi.com` as custom domain
 
 2. **DNS Configuration**
    - Point your domain to Vercel's nameservers
@@ -69,7 +69,7 @@ Test these features on the live site:
 
 1. **Contact Form**
    - Fill out and submit the contact form
-   - Check that you receive the email at `media@chezik.eu`
+   - Check that you receive the email at `media@johnciresi.com`
    - Verify the user receives a confirmation email
 
 2. **Newsletter Signup**
@@ -110,8 +110,8 @@ To test locally with environment variables:
 ### Resend Setup
 
 - API key is already configured
-- From email: `noreply@chezik.eu`
-- Contact email: `media@chezik.eu`
+- From email: `noreply@johnciresi.com`
+- Contact email: `media@johnciresi.com`
 
 ### Email Templates
 
