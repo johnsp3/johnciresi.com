@@ -3,7 +3,11 @@
  * Handles newsletter subscriptions with enterprise-grade security and validation
  */
 
+import { config } from 'dotenv';
 import type { APIRoute } from 'astro';
+
+// Load environment variables
+config();
 import { sendNewsletterWelcome, isEmailServiceConfigured } from '../../utils/emailService.js';
 import { checkRateLimit, validateNewsletterForm, getClientIP } from '../../utils/security.js';
 import { addSubscriber } from '../../utils/newsletterStorage.js';

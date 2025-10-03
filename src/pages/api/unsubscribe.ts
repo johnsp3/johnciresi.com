@@ -3,7 +3,11 @@
  * Handles newsletter unsubscriptions with secure token validation
  */
 
+import { config } from 'dotenv';
 import type { APIRoute } from 'astro';
+
+// Load environment variables
+config();
 import { sendUnsubscribeConfirmation, isEmailServiceConfigured } from '../../utils/emailService.js';
 import { unsubscribeByToken } from '../../utils/newsletterStorage.js';
 import { logError } from '../../utils/errorTracking.js';

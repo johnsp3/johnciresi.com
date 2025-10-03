@@ -3,7 +3,11 @@
  * Handles contact form submissions with enterprise-grade security and validation
  */
 
+import { config } from 'dotenv';
 import type { APIRoute } from 'astro';
+
+// Load environment variables
+config();
 import { sendContactConfirmation, sendContactNotification, isEmailServiceConfigured } from '../../utils/emailService.js';
 import { checkRateLimit, validateContactForm, getClientIP } from '../../utils/security.js';
 import { logError } from '../../utils/errorTracking.js';

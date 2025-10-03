@@ -3,7 +3,11 @@
  * Handles all email operations with Resend API
  */
 
+import { config } from 'dotenv';
 import { Resend } from 'resend';
+
+// Load environment variables
+config();
 import { 
   getNewsletterWelcomeTemplate,
   getContactConfirmationTemplate,
