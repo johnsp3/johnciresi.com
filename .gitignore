@@ -25,6 +25,9 @@ pnpm-debug.log*
 *.pem
 secrets/
 
+# Newsletter subscriber data
+data/
+
 # macOS-specific files
 .DS_Store
 

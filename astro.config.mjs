@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
@@ -52,7 +53,11 @@ export default defineConfig({
     },
   },
 
-  // Static site generation (no adapter needed)
+  // Vercel adapter for serverless functions
+  adapter: vercel({
+    webAnalytics: { enabled: false },
+    speedInsights: { enabled: true },
+  }),
 
   // Build optimizations
   build: {
@@ -72,7 +77,7 @@ export default defineConfig({
   },
 
   // Output configuration
-  output: 'static',
+  output: 'server',
   site:
     process.env.NODE_ENV === 'production'
       ? 'https://johnciresi.com'

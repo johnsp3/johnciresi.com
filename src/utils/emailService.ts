@@ -1,20 +1,26 @@
 /**
- * Email Service Utilities
- * Handles email sending with Resend API
+ * Enterprise Email Service
+ * Handles all email operations with Resend API
  */
 
 import { Resend } from 'resend';
-import { getEnvConfig } from './env.js';
+import { 
+  getNewsletterWelcomeTemplate,
+  getContactConfirmationTemplate,
+  getContactNotificationTemplate,
+  getUnsubscribeConfirmationTemplate,
+  type EmailTemplateData
+} from './emailTemplates.js';
 
+// Initialize Resend
 let resend: Resend | null = null;
 
 try {
-  const env = getEnvConfig();
-  if (env.resendApiKey !== 'not-configured') {
-    resend = new Resend(env.resendApiKey);
+  const apiKey = process.env.RESEND_API_KEY;
+  if (apiKey && apiKey !== 'your_resend_api_key_here') {
+    resend = new Resend(apiKey);
   }
 } catch (error) {
-  // Silently handle environment configuration errors
   console.warn('Email service not configured:', error);
 }
 
@@ -26,135 +32,133 @@ export interface ContactFormData {
 
 export interface NewsletterData {
   email: string;
+  name?: string;
 }
 
 /**
- * Sends contact form email to admin and confirmation to user
+ * Check if email service is configured
  */
-export async function sendContactEmail(data: ContactFormData): Promise<void> {
+export function isEmailServiceConfigured(): boolean {
+  return resend !== null;
+}
+
+/**
+ * Send newsletter welcome email
+ */
+export async function sendNewsletterWelcome(data: NewsletterData, unsubscribeToken?: string): Promise<void> {
   if (!resend) {
     throw new Error('Email service not configured. Please add RESEND_API_KEY to environment variables.');
   }
 
-  const { name, email, message } = data;
+  const templateData: EmailTemplateData = {
+    email: data.email,
+    name: data.name,
+    siteUrl: process.env.SITE_URL || 'https://johnciresi.com',
+    siteName: process.env.SITE_NAME || 'John Ciresi',
+    unsubscribeUrl: unsubscribeToken 
+      ? `${process.env.SITE_URL || 'https://johnciresi.com'}/api/unsubscribe?token=${unsubscribeToken}`
+      : `${process.env.SITE_URL || 'https://johnciresi.com'}/api/unsubscribe`
+  };
 
-  // Email to admin (media@johnciresi.com)
-  const adminEmail = await resend.emails.send({
-    from: `${env.resendFromName} <${env.resendFromEmail}>`,
-    to: [env.contactEmail],
-    subject: `New Contact Form Submission from ${name}`,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333; border-bottom: 2px solid #333; padding-bottom: 10px;">
-          New Contact Form Submission
-        </h2>
-        
-        <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Message:</strong></p>
-          <div style="background: white; padding: 15px; border-radius: 4px; border-left: 4px solid #333;">
-            ${message.replace(/\n/g, '<br>')}
-          </div>
-        </div>
-        
-        <p style="color: #666; font-size: 14px;">
-          This message was sent from the contact form on ${env.siteName} website.
-        </p>
-      </div>
-    `,
+  const html = getNewsletterWelcomeTemplate(templateData);
+
+  const result = await resend.emails.send({
+    from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'noreply@johnciresi.com'}>`,
+    to: [data.email],
+    subject: 'Welcome to John Ciresi\'s Newsletter! 🎵',
+    html,
   });
 
-  // Confirmation email to user
-  const userEmail = await resend.emails.send({
-    from: `${env.resendFromName} <${env.resendFromEmail}>`,
-    to: [email],
-    subject: `Thank you for contacting John Ciresi`,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333; border-bottom: 2px solid #333; padding-bottom: 10px;">
-          Thank You for Your Message
-        </h2>
-        
-        <p>Hi ${name},</p>
-        
-        <p>Thank you for reaching out! I've received your message and will get back to you as soon as possible.</p>
-        
-        <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <p><strong>Your message:</strong></p>
-          <div style="background: white; padding: 15px; border-radius: 4px; border-left: 4px solid #333;">
-            ${message.replace(/\n/g, '<br>')}
-          </div>
-        </div>
-        
-        <p>I appreciate your interest and look forward to connecting with you.</p>
-        
-        <p>Best regards,<br>
-        John Ciresi</p>
-        
-        <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-        <p style="color: #666; font-size: 12px;">
-          This is an automated confirmation. Please do not reply to this email.
-        </p>
-      </div>
-    `,
-  });
-
-  if (adminEmail.error || userEmail.error) {
-    throw new Error(
-      `Failed to send emails: ${adminEmail.error || userEmail.error}`
-    );
+  if (result.error) {
+    throw new Error(`Failed to send newsletter welcome email: ${result.error.message}`);
   }
 }
 
 /**
- * Sends newsletter welcome email
+ * Send contact form confirmation to user
  */
-export async function sendNewsletterWelcome(
-  data: NewsletterData
-): Promise<void> {
+export async function sendContactConfirmation(data: ContactFormData): Promise<void> {
   if (!resend) {
     throw new Error('Email service not configured. Please add RESEND_API_KEY to environment variables.');
   }
 
-  const { email } = data;
+  const templateData: EmailTemplateData = {
+    email: data.email,
+    name: data.name,
+    message: data.message,
+    siteUrl: process.env.SITE_URL || 'https://johnciresi.com',
+    siteName: process.env.SITE_NAME || 'John Ciresi'
+  };
 
-  const welcomeEmail = await resend.emails.send({
-    from: `${env.resendFromName} <${env.resendFromEmail}>`,
-    to: [email],
-    subject: `Welcome to John Ciresi's Newsletter`,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333; border-bottom: 2px solid #333; padding-bottom: 10px;">
-          Welcome to My Newsletter!
-        </h2>
-        
-        <p>Thank you for subscribing to my newsletter!</p>
-        
-        <p>You'll now receive updates on:</p>
-        <ul>
-          <li>New music releases and projects</li>
-          <li>Exclusive behind-the-scenes content</li>
-          <li>Upcoming shows and events</li>
-          <li>Personal insights and stories</li>
-        </ul>
-        
-        <p>I'm excited to share my musical journey with you and keep you connected to what's happening in my world.</p>
-        
-        <p>Thank you for your support!</p>
-        
-        <p>Best regards,<br>
-        John Ciresi</p>
-        
-        <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-        <p style="color: #666; font-size: 12px;">
-          You can unsubscribe at any time by clicking the link in any newsletter email.
-        </p>
-      </div>
-    `,
+  const html = getContactConfirmationTemplate(templateData);
+
+  const result = await resend.emails.send({
+    from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'noreply@johnciresi.com'}>`,
+    to: [data.email],
+    subject: 'Message Received - John Ciresi',
+    html,
   });
 
-  if (welcomeEmail.error) {
-    throw new Error(`Failed to send welcome email: ${welcomeEmail.error}`);
+  if (result.error) {
+    throw new Error(`Failed to send contact confirmation: ${result.error.message}`);
+  }
+}
+
+/**
+ * Send contact form notification to admin
+ */
+export async function sendContactNotification(data: ContactFormData): Promise<void> {
+  if (!resend) {
+    throw new Error('Email service not configured. Please add RESEND_API_KEY to environment variables.');
+  }
+
+  const templateData: EmailTemplateData = {
+    email: data.email,
+    name: data.name,
+    message: data.message,
+    siteUrl: process.env.SITE_URL || 'https://johnciresi.com',
+    siteName: process.env.SITE_NAME || 'John Ciresi'
+  };
+
+  const html = getContactNotificationTemplate(templateData);
+
+  const result = await resend.emails.send({
+    from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'noreply@johnciresi.com'}>`,
+    to: [process.env.TO_EMAIL || 'media@johnciresi.com'],
+    subject: `New Contact Form Submission from ${data.name}`,
+    html,
+  });
+
+  if (result.error) {
+    throw new Error(`Failed to send contact notification: ${result.error.message}`);
+  }
+}
+
+/**
+ * Send unsubscribe confirmation email
+ */
+export async function sendUnsubscribeConfirmation(data: NewsletterData): Promise<void> {
+  if (!resend) {
+    throw new Error('Email service not configured. Please add RESEND_API_KEY to environment variables.');
+  }
+
+  const templateData: EmailTemplateData = {
+    email: data.email,
+    name: data.name,
+    siteUrl: process.env.SITE_URL || 'https://johnciresi.com',
+    siteName: process.env.SITE_NAME || 'John Ciresi'
+  };
+
+  const html = getUnsubscribeConfirmationTemplate(templateData);
+
+  const result = await resend.emails.send({
+    from: `${process.env.FROM_NAME || 'John Ciresi'} <${process.env.FROM_EMAIL || 'noreply@johnciresi.com'}>`,
+    to: [data.email],
+    subject: 'Unsubscribed from John Ciresi\'s Newsletter',
+    html,
+  });
+
+  if (result.error) {
+    throw new Error(`Failed to send unsubscribe confirmation: ${result.error.message}`);
   }
 }
