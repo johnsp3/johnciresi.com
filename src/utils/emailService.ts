@@ -24,8 +24,8 @@ export interface NewsletterData {
  */
 export async function sendContactEmail(data: ContactFormData): Promise<void> {
   const { name, email, message } = data;
-  
-  // Email to admin (media@chezik.eu)
+
+  // Email to admin (media@johnciresi.com)
   const adminEmail = await resend.emails.send({
     from: `${env.resendFromName} <${env.resendFromEmail}>`,
     to: [env.contactEmail],
@@ -56,7 +56,7 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
   const userEmail = await resend.emails.send({
     from: `${env.resendFromName} <${env.resendFromEmail}>`,
     to: [email],
-    subject: `Thank you for contacting John Chezik`,
+    subject: `Thank you for contacting John Ciresi`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #333; border-bottom: 2px solid #333; padding-bottom: 10px;">
@@ -77,7 +77,7 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
         <p>I appreciate your interest and look forward to connecting with you.</p>
         
         <p>Best regards,<br>
-        John Chezik</p>
+        John Ciresi</p>
         
         <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
         <p style="color: #666; font-size: 12px;">
@@ -88,20 +88,24 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
   });
 
   if (adminEmail.error || userEmail.error) {
-    throw new Error(`Failed to send emails: ${adminEmail.error || userEmail.error}`);
+    throw new Error(
+      `Failed to send emails: ${adminEmail.error || userEmail.error}`
+    );
   }
 }
 
 /**
  * Sends newsletter welcome email
  */
-export async function sendNewsletterWelcome(data: NewsletterData): Promise<void> {
+export async function sendNewsletterWelcome(
+  data: NewsletterData
+): Promise<void> {
   const { email } = data;
-  
+
   const welcomeEmail = await resend.emails.send({
     from: `${env.resendFromName} <${env.resendFromEmail}>`,
     to: [email],
-    subject: `Welcome to John Chezik's Newsletter`,
+    subject: `Welcome to John Ciresi's Newsletter`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #333; border-bottom: 2px solid #333; padding-bottom: 10px;">
@@ -123,7 +127,7 @@ export async function sendNewsletterWelcome(data: NewsletterData): Promise<void>
         <p>Thank you for your support!</p>
         
         <p>Best regards,<br>
-        John Chezik</p>
+        John Ciresi</p>
         
         <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
         <p style="color: #666; font-size: 12px;">

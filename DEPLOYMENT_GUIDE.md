@@ -3,6 +3,7 @@
 ## 🚀 Vercel Deployment Instructions
 
 ### Prerequisites
+
 - Vercel account
 - GitHub repository with the code
 - Environment variables configured
@@ -107,11 +108,13 @@ To test locally with environment variables:
 ## 📧 Email Configuration
 
 ### Resend Setup
+
 - API key is already configured
 - From email: `noreply@chezik.eu`
 - Contact email: `media@chezik.eu`
 
 ### Email Templates
+
 - Contact form sends to admin + confirmation to user
 - Newsletter sends welcome email to subscriber
 - All emails use professional HTML templates
@@ -119,6 +122,7 @@ To test locally with environment variables:
 ## 🛡️ Security Features
 
 ### Implemented Security Measures
+
 - Rate limiting (3 requests per 15 minutes)
 - Honeypot fields for spam protection
 - Input validation and sanitization
@@ -126,6 +130,7 @@ To test locally with environment variables:
 - Security headers via Vercel configuration
 
 ### Validation Rules
+
 - Name: 1-100 characters
 - Email: Valid email format, 5-254 characters
 - Message: 10-2000 characters
@@ -154,6 +159,7 @@ To test locally with environment variables:
    - Check Vercel build logs
 
 ### Support
+
 - Check Vercel function logs for detailed error messages
 - Monitor Resend dashboard for email delivery status
 - Use browser developer tools to debug form submissions

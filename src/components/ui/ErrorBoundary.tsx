@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
+import { createErrorBoundaryHandler } from '@/utils/errorTracking';
 
 interface Props {
   children: ReactNode;
@@ -13,7 +14,7 @@ interface State {
 
 class ErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false
+    hasError: false,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -21,22 +22,26 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    // Use enterprise error tracking system
+    const errorHandler = createErrorBoundaryHandler('ErrorBoundary');
+    errorHandler(error, errorInfo);
   }
 
   public render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="flex items-center justify-center p-8 bg-error-50 dark:bg-error-950 border border-error-200 dark:border-error-800 rounded-xl">
-          <div className="text-center">
-            <div className="text-error-600 dark:text-error-400 text-lg font-medium mb-2">
-              Something went wrong
-            </div>
-            <div className="text-error-500 dark:text-error-500 text-sm">
-              Please refresh the page to try again
+      return (
+        this.props.fallback || (
+          <div className="flex items-center justify-center rounded-xl border border-error-200 bg-error-50 p-8 dark:border-error-800 dark:bg-error-950">
+            <div className="text-center">
+              <div className="mb-2 text-lg font-medium text-error-600 dark:text-error-400">
+                Something went wrong
+              </div>
+              <div className="text-sm text-error-500 dark:text-error-500">
+                Please refresh the page to try again
+              </div>
             </div>
           </div>
-        </div>
+        )
       );
     }
 

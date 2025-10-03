@@ -4,7 +4,7 @@
 
 **FIXED ON**: December 19, 2024  
 **ISSUE**: Gallery clicks were showing "About Me" content instead of gallery images  
-**ROOT CAUSE**: Event bubbling conflicts between gallery click handlers and navigation links  
+**ROOT CAUSE**: Event bubbling conflicts between gallery click handlers and navigation links
 
 ### PERMANENT FIXES IMPLEMENTED:
 
@@ -14,11 +14,13 @@
 4. **Debug Logging**: Added console logging to track gallery opening behavior
 
 ### FILES MODIFIED:
+
 - `src/components/media/GalleryGrid.tsx` - Added event prevention to click handlers
 - `src/components/media/MediaGallery.tsx` - Added debug logging and event isolation
 - `src/components/media/GalleryModal.tsx` - Added navigation prevention and higher z-index
 
 ### PREVENTION MEASURES:
+
 - All gallery clicks now prevent default behavior and stop event propagation
 - Navigation links are temporarily disabled when gallery modal is open
 - Gallery modal has highest possible z-index to prevent UI conflicts
@@ -27,17 +29,20 @@
 **THIS ISSUE WILL NEVER HAPPEN AGAIN** - The fix is bulletproof and prevents all possible navigation conflicts.
 
 ## Overview
+
 This guide provides a complete reference for adding new albums to the John Chezik musician website. The system uses a data-driven approach where all albums follow the same structure and functionality.
 
 ## System Architecture
 
 ### Core Components
+
 - **`WorkingAudioHandler`** - Manages album selection and player state
 - **`WorkingAudioModal`** - The actual MP3 player interface
 - **`src/data/audio.ts`** - Central data store for all album information
 - **`src/pages/index.astro`** - Homepage with album list and featured album display
 
 ### User Flow
+
 1. User clicks album name in list → Updates featured album display
 2. User clicks featured album cover → Opens MP3 player modal
 3. MP3 player opens with first track selected and play button ready
@@ -46,6 +51,7 @@ This guide provides a complete reference for adding new albums to the John Chezi
 ## File Structure & Naming Conventions
 
 ### Required Directories
+
 ```
 public/
 ├── images/albums/          # Album cover images
@@ -53,6 +59,7 @@ public/
 ```
 
 ### File Naming Rules
+
 - **Album Covers**: `[Album Name] Album Cover.png`
   - Example: `Fractured 2024 Album Cover.png`
   - Example: `The Visual Man Album Cover 2023.png`
@@ -64,12 +71,14 @@ public/
   - Example: `Baby Please.mp3`
 
 ### File Paths in Code
+
 - **Album Cover Path**: `/images/albums/[Album Name] Album Cover.png`
 - **MP3 File Path**: `/audio/[Track Name].mp3`
 
 ## Data Structure Template
 
 ### Album Object Structure
+
 ```typescript
 {
   id: 'unique-album-id',                    // kebab-case, unique identifier
@@ -95,6 +104,7 @@ public/
 ### Current Working Examples
 
 #### Fractured (2024)
+
 ```typescript
 {
   id: 'fractured',
@@ -125,6 +135,7 @@ public/
 ```
 
 #### The Visual Man (2023)
+
 ```typescript
 {
   id: 'the-visual-man',
@@ -155,6 +166,7 @@ public/
 ```
 
 #### The Revealing (2022)
+
 ```typescript
 {
   id: 'the-revealing',
@@ -187,11 +199,13 @@ public/
 ## Step-by-Step Addition Process
 
 ### Step 1: Prepare Files
+
 1. **Album Cover**: Place in `public/images/albums/` with naming convention
 2. **MP3 Files**: Place in `public/audio/` with naming convention
 3. **Verify**: Ensure all files are accessible and properly formatted
 
 ### Step 2: Add Album Data
+
 1. Open `src/data/audio.ts`
 2. Add new album object to the `albums` array
 3. Follow exact structure from working examples
@@ -199,12 +213,14 @@ public/
 5. Set correct file paths
 
 ### Step 3: Add UI Entry
+
 1. Open `src/pages/index.astro`
 2. Add album entry to the album list section (around line 105-162)
 3. Follow exact structure of existing entries
 4. Update the `onclick` handler to use correct album ID
 
 ### Step 4: Test Complete Flow
+
 1. **Album Selection**: Click album name → Verify cover updates
 2. **Player Opening**: Click cover → Verify player opens
 3. **Player Functionality**: Test play, pause, progress, track switching
@@ -213,24 +229,28 @@ public/
 ## Testing Checklist
 
 ### ✅ File Verification
+
 - [ ] Album cover image exists and displays correctly
 - [ ] All MP3 files exist and are accessible
 - [ ] File paths in data match actual file locations
 - [ ] No 404 errors in browser console
 
 ### ✅ Data Structure
+
 - [ ] Album object follows exact template structure
 - [ ] All required fields are present
 - [ ] IDs are unique and properly formatted
 - [ ] File paths are correct and consistent
 
 ### ✅ UI Integration
+
 - [ ] Album appears in homepage list
 - [ ] Album name click updates featured display
 - [ ] Album cover click opens player
 - [ ] Player shows correct album title and track count
 
 ### ✅ Player Functionality
+
 - [ ] Player opens with first track selected
 - [ ] Play button shows (not pause) when opened
 - [ ] Audio plays when play button clicked
@@ -240,6 +260,7 @@ public/
 - [ ] Player closes properly
 
 ### ✅ Consistency Check
+
 - [ ] Behavior matches existing albums exactly
 - [ ] No console errors or warnings
 - [ ] All functionality works identically to Fractured, The Visual Man, The Revealing
@@ -249,33 +270,39 @@ public/
 ### Common Issues
 
 #### Player Doesn't Open
+
 - **Check**: Album ID in data matches onclick handler
 - **Check**: Album exists in `albums` array
 - **Check**: No JavaScript errors in console
 
 #### Audio Doesn't Play
+
 - **Check**: MP3 file exists in `public/audio/`
 - **Check**: File path in data matches actual file
 - **Check**: MP3 file is not corrupted
 - **Check**: Browser supports MP3 format
 
 #### Cover Image Doesn't Show
+
 - **Check**: Image file exists in `public/images/albums/`
 - **Check**: File path in data matches actual file
 - **Check**: Image file is not corrupted
 - **Check**: File naming follows convention
 
 #### Progress Bar Doesn't Update
+
 - **Check**: Audio file loads properly
 - **Check**: No JavaScript errors in console
 - **Check**: Event listeners are properly attached
 
 #### Player Shows Wrong State
+
 - **Check**: `isPlaying` state resets when modal opens
 - **Check**: First track is selected by default
 - **Check**: Play button shows instead of pause
 
 ### Debug Steps
+
 1. Open browser developer tools
 2. Check Console tab for errors
 3. Check Network tab for failed file requests
@@ -295,6 +322,7 @@ Genre: [Genre/Description]
 ```
 
 Example:
+
 ```
 Artist Name: John Chezik
 Album Name: Midnight Dreams

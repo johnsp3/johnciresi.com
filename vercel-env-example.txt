@@ -1,0 +1,21 @@
+# Vercel Environment Variables Configuration
+# Add these environment variables in your Vercel dashboard
+
+# Required Environment Variables:
+RESEND_API_KEY=your_resend_api_key_here
+ADMIN_EMAIL=admin@johnciresi.com
+
+# Optional Environment Variables:
+SITE_URL=https://johnciresi.com
+NODE_ENV=production
+RATE_LIMIT_REQUESTS=5
+RATE_LIMIT_WINDOW=900000
+ENABLE_PERFORMANCE_MONITORING=true
+ENABLE_ERROR_TRACKING=true
+
+# Instructions:
+# 1. Go to your Vercel dashboard
+# 2. Select your project
+# 3. Go to Settings > Environment Variables
+# 4. Add each variable above with your actual values
+# 5. Make sure to set them for Production, Preview, and Development environments

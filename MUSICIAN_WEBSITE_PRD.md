@@ -1,9 +1,11 @@
 # Professional Musician Website - Project Requirements Document
 
 ## Project Overview
+
 Create an elite Astro website for a professional musician with 50,000 followers, inspired by Apple's design aesthetic. The site will be industrial-first, custom-built (no templates), with enterprise-grade code quality.
 
 ## Design Philosophy
+
 - **Apple-inspired aesthetic**: Clean, minimal, sophisticated
 - **Industrial-first approach**: Professional, high-quality, premium feel
 - **Custom design**: No templates, completely bespoke
@@ -14,6 +16,7 @@ Create an elite Astro website for a professional musician with 50,000 followers,
 ## Core Features Required
 
 ### 1. Audio Experience
+
 - **Album Gallery**: Beautiful album cover displays
 - **Interactive Player**: Click album → beautiful MP3 player
 - **Preview System**: 30-second song previews
@@ -21,12 +24,14 @@ Create an elite Astro website for a professional musician with 50,000 followers,
 - **HLS Streaming**: Professional audio streaming with hls.js
 
 ### 2. Visual Gallery
+
 - **Beautiful Media Display**: Professional photo/video gallery
 - **High-Quality Images**: Optimized with Sharp
 - **Responsive Grid**: Adaptive layouts for all devices
 - **Smooth Animations**: Framer Motion for premium feel
 
 ### 3. Technical Requirements
+
 - **Astro Framework**: Latest version with zero JS by default
 - **React Islands**: Interactive components only when needed
 - **TypeScript**: Full type safety
@@ -38,7 +43,7 @@ Create an elite Astro website for a professional musician with 50,000 followers,
 
 **FIXED ON**: December 19, 2024  
 **ISSUE**: Gallery clicks were showing "About Me" content instead of gallery images  
-**ROOT CAUSE**: Event bubbling conflicts between gallery click handlers and navigation links  
+**ROOT CAUSE**: Event bubbling conflicts between gallery click handlers and navigation links
 
 ### PERMANENT FIXES IMPLEMENTED:
 
@@ -48,11 +53,13 @@ Create an elite Astro website for a professional musician with 50,000 followers,
 4. **Debug Logging**: Added console logging to track gallery opening behavior
 
 ### FILES MODIFIED:
+
 - `src/components/media/GalleryGrid.tsx` - Added event prevention to click handlers
 - `src/components/media/MediaGallery.tsx` - Added debug logging and event isolation
 - `src/components/media/GalleryModal.tsx` - Added navigation prevention and higher z-index
 
 ### PREVENTION MEASURES:
+
 - All gallery clicks now prevent default behavior and stop event propagation
 - Navigation links are temporarily disabled when gallery modal is open
 - Gallery modal has highest possible z-index to prevent UI conflicts
@@ -63,6 +70,7 @@ Create an elite Astro website for a professional musician with 50,000 followers,
 ## Phase Breakdown
 
 ### Phase 1: Project Setup & Core Configuration
+
 - [x] Initialize Astro project with exact dependencies
 - [x] Configure TypeScript, ESLint, Prettier
 - [x] Set up Tailwind CSS with custom theme
@@ -71,6 +79,7 @@ Create an elite Astro website for a professional musician with 50,000 followers,
 - [x] Set up testing framework (Vitest + Playwright)
 
 ### Phase 2: Base Layout & Design System
+
 - [x] Create base layout with dark/light mode
 - [x] Implement Apple-inspired design system
 - [x] Build responsive navigation
@@ -78,6 +87,7 @@ Create an elite Astro website for a professional musician with 50,000 followers,
 - [x] Set up typography and spacing system
 
 ### Phase 3: Audio Player System
+
 - [x] Implement HLS.js audio streaming
 - [x] Create beautiful MP3 player component
 - [x] Build album gallery with click interactions
@@ -85,6 +95,7 @@ Create an elite Astro website for a professional musician with 50,000 followers,
 - [x] Implement audio controls and progress
 
 ### Phase 4: Media Gallery
+
 - [x] Create responsive image gallery
 - [x] Implement image optimization with Sharp
 - [x] Add smooth animations and transitions
@@ -92,11 +103,13 @@ Create an elite Astro website for a professional musician with 50,000 followers,
 - [x] Optimize for mobile and desktop
 
 ### Phase 4.5: Additional Features (Before Phase 5)
+
 **STATUS: CURRENT PHASE - IN PROGRESS**
 
 Based on analysis of the old website and feature comparison, implementing these three essential features before moving to contact forms:
 
 #### 4.5.1: E-book Section for "The Visual Man"
+
 - [ ] Create dedicated e-book showcase section
 - [ ] Design book cover display with Apple-inspired aesthetics
 - [ ] Add book description and preview excerpt
@@ -105,6 +118,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - [ ] Integrate with existing design system
 
 #### 4.5.2: About/Bio Section
+
 - [ ] Create comprehensive about page/section
 - [ ] Add professional photo and personal story
 - [ ] Include musical journey and background
@@ -113,6 +127,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - [ ] Ensure mobile-responsive layout
 
 #### 4.5.3: Newsletter Signup
+
 - [ ] Design simple, elegant email collection form
 - [ ] Implement lead generation functionality
 - [ ] Add to appropriate sections (footer, about, etc.)
@@ -121,6 +136,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - [ ] Prepare for future email service integration
 
 **COMPLETION CRITERIA:**
+
 - All three features fully implemented and tested
 - Consistent with existing Apple-inspired design
 - Mobile-responsive and accessible
@@ -128,6 +144,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - Ready for Phase 5 implementation
 
 ### Phase 5: Contact & Forms
+
 - [ ] Integrate Resend email service
 - [ ] Create contact forms with validation
 - [ ] Implement form handling with React Hook Form
@@ -135,6 +152,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - [ ] Set up email templates
 
 ### Phase 6: PWA & Performance
+
 - [ ] Configure service worker
 - [ ] Implement offline functionality
 - [ ] Add PWA manifest
@@ -142,6 +160,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - [ ] Set up performance monitoring
 
 ### Phase 7: Testing & Quality Assurance
+
 - [ ] Write unit tests with Vitest
 - [ ] Create E2E tests with Playwright
 - [ ] Implement accessibility testing
@@ -149,6 +168,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - [ ] Cross-browser compatibility
 
 ### Phase 8: Deployment & Launch
+
 - [ ] Final testing on localhost:3000
 - [ ] Deploy to Vercel via GitHub
 - [ ] Configure custom domain
@@ -158,6 +178,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 ## Technical Stack
 
 ### Core Framework
+
 - `astro@latest` - Main framework
 - `@astrojs/react@latest` - React islands
 - `@astrojs/tailwind@latest` - Tailwind integration
@@ -167,6 +188,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - `typescript@5.7.2` - Type safety
 
 ### UI & Styling
+
 - `react@18.3.1` - Interactive components
 - `tailwindcss@3.4.17` - CSS framework
 - `@tailwindcss/forms@0.5.0` - Form styling
@@ -175,34 +197,41 @@ Based on analysis of the old website and feature comparison, implementing these 
 - `lucide-react@0.544.0` - Icons
 
 ### Audio & Media
+
 - `hls.js@1.4.12` - Audio streaming
 - `sharp@0.34.4` - Image optimization
 
 ### Email & Forms
+
 - `resend@6.1.0` - Email service
 - `react-hook-form@7.50.0` - Form handling
 - `zod@4.1.11` - Validation
 
 ### State & Data
+
 - `zustand@5.0.8` - State management
 - `@tanstack/react-query@latest` - Data fetching
 
 ### PWA & Performance
+
 - `@vite/plugin-pwa@latest` - PWA functionality
 - `workbox-precaching@latest` - Service worker
 - `@vercel/analytics@1.5.0` - Analytics
 
 ### Testing
+
 - `vitest@2.1.8` - Unit testing
 - `playwright@1.48.0` - E2E testing
 - `@testing-library/react@16.1.0` - React testing
 
 ### Development Tools
+
 - `eslint@9.36.0` - Linting
 - `prettier@3.4.2` - Formatting
 - `@typescript-eslint/eslint-plugin@8.44.1` - TS linting
 
 ## Project Structure
+
 ```
 /src
   /components
@@ -228,6 +257,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 ```
 
 ## Quality Standards
+
 - **Zero warnings/errors**: All code must be clean
 - **Enterprise-grade**: Professional, maintainable code
 - **Performance**: Sub-100ms load times
@@ -236,6 +266,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - **SEO optimized**: Perfect Lighthouse scores
 
 ## Success Criteria
+
 - [ ] Beautiful, Apple-inspired design
 - [ ] Smooth audio player with HLS streaming
 - [ ] Responsive gallery with optimized images
@@ -247,6 +278,7 @@ Based on analysis of the old website and feature comparison, implementing these 
 - [ ] Deployed and accessible on localhost:3000
 
 ## Next Steps
+
 1. Begin Phase 1: Project Setup & Core Configuration
 2. Test each phase on localhost:3000
 3. Ensure enterprise-grade quality at each step

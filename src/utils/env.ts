@@ -42,7 +42,9 @@ export function getEnvConfig(): EnvConfig {
     .map(([key]) => key);
 
   if (missingVars.length > 0) {
-    throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+    throw new Error(
+      `Missing required environment variables: ${missingVars.join(', ')}`
+    );
   }
 
   return requiredVars as EnvConfig;

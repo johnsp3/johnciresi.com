@@ -15,6 +15,7 @@ A sophisticated, enterprise-grade musician website built with Astro, React, and 
 ## 🏗️ Architecture
 
 ### Core Technologies
+
 - **Astro 5.14.1**: Modern static site generator
 - **React 18.3.1**: Interactive components
 - **TypeScript 5.9.2**: Type safety
@@ -23,6 +24,7 @@ A sophisticated, enterprise-grade musician website built with Astro, React, and 
 - **Sharp**: Image optimization
 
 ### Project Structure
+
 ```
 src/
 ├── components/
@@ -41,17 +43,20 @@ src/
 ### Key Components
 
 #### MP3 Player System
+
 - `WorkingAudioHandler.tsx`: Global state manager and bridge
 - `WorkingAudioModal.tsx`: Full-featured audio player UI
 - `audio.ts`: Album and track data structure
 
 #### Gallery System
+
 - `MediaGallery.tsx`: Main gallery component
 - `GalleryGrid.tsx`: Grid layout component
 - `GalleryModal.tsx`: Full-screen image viewer
 - `galleryData.ts`: Gallery content data
 
 #### Section Components
+
 - `HeroSection.astro`: Landing hero section
 - `DiscographySection.astro`: Album showcase
 - `GallerySection.astro`: Photo gallery
@@ -61,10 +66,12 @@ src/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Installation
+
 ```bash
 # Clone the repository
 git clone <repository-url>
@@ -79,32 +86,36 @@ npm run dev
 
 ### Development Commands
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm run dev`             | Start dev server at `localhost:3000`             |
-| `npm run build`           | Build for production                             |
-| `npm run preview`         | Preview production build                         |
-| `npm run type-check`      | Run TypeScript type checking                     |
-| `npm run format`          | Format code with Prettier                        |
-| `npm run clean`           | Clean build artifacts                            |
+| Command              | Action                               |
+| :------------------- | :----------------------------------- |
+| `npm run dev`        | Start dev server at `localhost:3000` |
+| `npm run build`      | Build for production                 |
+| `npm run preview`    | Preview production build             |
+| `npm run type-check` | Run TypeScript type checking         |
+| `npm run format`     | Format code with Prettier            |
+| `npm run clean`      | Clean build artifacts                |
 
 ## 📁 File Organization
 
 ### Enterprise Standards
+
 - **File Size Limit**: All files under 250 lines
 - **Component Separation**: Single responsibility principle
 - **Type Safety**: Full TypeScript coverage
 - **Modular Architecture**: Feature-based organization
 
 ### Adding New Albums
+
 See `ALBUM_ADDITION_GUIDE.md` for detailed instructions on adding new albums to the MP3 player.
 
 ### MP3 Player Architecture
+
 See `MP3_PLAYER_ARCHITECTURE.md` for technical details about the audio system.
 
 ## 🎨 Design System
 
 ### Color Palette
+
 - **Primary**: Apple-inspired grays and whites
 - **Accent**: Professional blue tones
 - **Success**: Apple green
@@ -112,11 +123,13 @@ See `MP3_PLAYER_ARCHITECTURE.md` for technical details about the audio system.
 - **Error**: Apple red
 
 ### Typography
+
 - **Font Stack**: SF Pro Display, SF Pro Text, system fonts
 - **Weights**: Extralight, Light, Medium
 - **Tracking**: Optimized for readability
 
 ### Components
+
 - **Buttons**: Multiple variants with hover effects
 - **Cards**: Glass morphism with subtle shadows
 - **Forms**: Clean, accessible form elements
@@ -125,12 +138,14 @@ See `MP3_PLAYER_ARCHITECTURE.md` for technical details about the audio system.
 ## 🔧 Configuration
 
 ### Build Configuration
+
 - **Target**: ESNext with modern browser support
 - **Minification**: esbuild for optimal performance
 - **Image Optimization**: Sharp with WebP output
 - **Bundle Splitting**: Automatic code splitting
 
 ### Deployment
+
 - **Platform**: Vercel (configured)
 - **Build Command**: `npm run build`
 - **Output Directory**: `dist`
@@ -139,6 +154,7 @@ See `MP3_PLAYER_ARCHITECTURE.md` for technical details about the audio system.
 ## 📱 Performance
 
 ### Optimizations
+
 - **Image Optimization**: Automatic WebP conversion
 - **Lazy Loading**: Images and components
 - **Code Splitting**: Route-based splitting
@@ -146,6 +162,7 @@ See `MP3_PLAYER_ARCHITECTURE.md` for technical details about the audio system.
 - **Caching**: Aggressive static asset caching
 
 ### Metrics
+
 - **Lighthouse Score**: 95+ across all categories
 - **Core Web Vitals**: Optimized for user experience
 - **Bundle Size**: Minimized with tree shaking
@@ -153,12 +170,14 @@ See `MP3_PLAYER_ARCHITECTURE.md` for technical details about the audio system.
 ## 🛠️ Development
 
 ### Code Quality
+
 - **ESLint**: Configured for TypeScript and React
 - **Prettier**: Consistent code formatting
 - **TypeScript**: Strict mode enabled
 - **Git Hooks**: Pre-commit linting
 
 ### Testing
+
 - **Type Checking**: `npm run type-check`
 - **Build Testing**: `npm run build`
 - **Preview Testing**: `npm run preview`
@@ -171,7 +190,7 @@ This project is for personal use by John Chezik. All rights reserved.
 
 **FIXED ON**: December 19, 2024  
 **ISSUE**: Gallery clicks were showing "About Me" content instead of gallery images  
-**ROOT CAUSE**: Event bubbling conflicts between gallery click handlers and navigation links  
+**ROOT CAUSE**: Event bubbling conflicts between gallery click handlers and navigation links
 
 ### PERMANENT FIXES IMPLEMENTED:
 
@@ -181,11 +200,13 @@ This project is for personal use by John Chezik. All rights reserved.
 4. **Debug Logging**: Added console logging to track gallery opening behavior
 
 ### FILES MODIFIED:
+
 - `src/components/media/GalleryGrid.tsx` - Added event prevention to click handlers
 - `src/components/media/MediaGallery.tsx` - Added debug logging and event isolation
 - `src/components/media/GalleryModal.tsx` - Added navigation prevention and higher z-index
 
 ### PREVENTION MEASURES:
+
 - All gallery clicks now prevent default behavior and stop event propagation
 - Navigation links are temporarily disabled when gallery modal is open
 - Gallery modal has highest possible z-index to prevent UI conflicts

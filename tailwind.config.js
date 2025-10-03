@@ -87,29 +87,23 @@ export default {
           'system-ui',
           'sans-serif',
         ],
-        mono: [
-          'SF Mono',
-          'Monaco',
-          'Inconsolata',
-          'Roboto Mono',
-          'monospace',
-        ],
+        mono: ['SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'monospace'],
       },
       // Apple-inspired spacing
       spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-        '128': '32rem',
+        18: '4.5rem',
+        88: '22rem',
+        128: '32rem',
       },
       // Apple-inspired border radius
       borderRadius: {
-        'xl': '1rem',
+        xl: '1rem',
         '2xl': '1.5rem',
         '3xl': '2rem',
       },
       // Apple-inspired shadows
       boxShadow: {
-        'apple': '0 4px 16px 0 rgba(0, 0, 0, 0.1)',
+        apple: '0 4px 16px 0 rgba(0, 0, 0, 0.1)',
         'apple-lg': '0 8px 32px 0 rgba(0, 0, 0, 0.12)',
         'apple-xl': '0 16px 64px 0 rgba(0, 0, 0, 0.15)',
         'apple-inset': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
@@ -141,13 +135,9 @@ export default {
       },
       // Apple-inspired backdrop blur
       backdropBlur: {
-        'xs': '2px',
+        xs: '2px',
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/container-queries'),
-  ],
+  plugins: [],
 };

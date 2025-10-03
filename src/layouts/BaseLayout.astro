@@ -31,7 +31,7 @@ const canonicalURL = new URL(canonical || Astro.url.pathname, Astro.site);
     <meta property="og:image" content={new URL(image, Astro.site)} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="John Chezik - Musician" />
+    <meta property="og:site_name" content="John Ciresi - Musician" />
     <meta property="og:locale" content="en_US" />
     
     <!-- Twitter -->
@@ -40,36 +40,51 @@ const canonicalURL = new URL(canonical || Astro.url.pathname, Astro.site);
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
-    <meta property="twitter:creator" content="@johnchezik" />
-    <meta property="twitter:site" content="@johnchezik" />
+    <meta property="twitter:creator" content="@johnciresi" />
+    <meta property="twitter:site" content="@johnciresi" />
     
     <!-- Additional SEO Meta Tags -->
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="John Chezik" />
-    <meta name="keywords" content="John Chezik, musician, singer, guitarist, songwriter, rock music, hard rock, studio musician, visual artist, music, albums, discography" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content="John Ciresi" />
+    <meta name="keywords" content="John Ciresi, musician, singer, guitarist, songwriter, rock music, hard rock, studio musician, visual artist, music, albums, discography, professional musician, guitar player, vocalist, songwriter, music producer, recording artist" />
     <meta name="language" content="en" />
     <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+    <meta name="geo.region" content="US" />
+    <meta name="geo.placename" content="United States" />
+    <meta name="classification" content="Music, Entertainment, Arts" />
+    <meta name="category" content="Music" />
+    <meta name="coverage" content="Worldwide" />
+    <meta name="target" content="all" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="John Ciresi" />
+    <meta name="format-detection" content="telephone=no" />
     
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json" is:inline>
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "John Chezik",
-      "description": "Professional musician, singer, guitarist, songwriter, and visual artist",
-      "url": "https://chezik.eu",
-      "image": "https://chezik.eu/images/og-image.jpg",
+      "name": "John Ciresi",
+      "description": "Professional musician, singer, guitarist, songwriter, and visual artist with 50,000+ followers",
+      "url": "https://johnciresi.com",
+      "image": "https://johnciresi.com/images/og-image.jpg",
       "sameAs": [
-        "https://twitter.com/johnchezik",
-        "https://instagram.com/johnchezik"
+        "https://twitter.com/johnciresi",
+        "https://instagram.com/johnciresi"
       ],
       "jobTitle": "Musician",
       "worksFor": {
         "@type": "Organization",
-        "name": "John Chezik Music"
+        "name": "John Ciresi Music",
+        "url": "https://johnciresi.com"
       },
       "alumniOf": "Music Industry",
-      "knowsAbout": ["Music", "Rock Music", "Hard Rock", "Songwriting", "Guitar", "Visual Art"],
+      "knowsAbout": ["Music", "Rock Music", "Hard Rock", "Songwriting", "Guitar", "Visual Art", "Studio Recording"],
       "hasOccupation": {
         "@type": "Occupation",
         "name": "Musician",
@@ -77,6 +92,39 @@ const canonicalURL = new URL(canonical || Astro.url.pathname, Astro.site);
           "@type": "Place",
           "name": "United States"
         }
+      },
+      "award": "Professional Musician",
+      "genre": ["Rock", "Hard Rock", "Alternative Rock"],
+      "instruments": ["Guitar", "Vocals"],
+      "foundingDate": "2020",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "media@johnciresi.com",
+        "contactType": "Business Inquiries"
+      }
+    }
+    </script>
+    
+    <!-- Additional Structured Data for Website -->
+    <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "John Ciresi - Professional Musician",
+      "url": "https://johnciresi.com",
+      "description": "Official website of John Ciresi, professional musician, singer, guitarist, and visual artist",
+      "author": {
+        "@type": "Person",
+        "name": "John Ciresi"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "John Ciresi Music"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://johnciresi.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
     }
     </script>
@@ -96,19 +144,32 @@ const canonicalURL = new URL(canonical || Astro.url.pathname, Astro.site);
   <body class="min-h-screen bg-primary-50 dark:bg-primary-950 text-primary-900 dark:text-primary-50 transition-colors duration-300">
     <!-- Skip links for accessibility -->
     <div class="sr-only focus-within:not-sr-only focus-within:absolute focus-within:top-4 focus-within:left-4 z-50">
-      <a href="#main-content" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only">
+      <a href="#main-content" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-600">
         Skip to main content
       </a>
-      <a href="#music" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only">
+      <a href="#music" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-600">
         Skip to discography
       </a>
-      <a href="#gallery" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only">
+      <a href="#gallery" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-600">
         Skip to gallery
       </a>
-      <a href="#contact" class="block bg-accent-600 text-white px-4 py-2 rounded-lg focus:not-sr-only">
+      <a href="#contact" class="block bg-accent-600 text-white px-4 py-2 rounded-lg focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-600">
         Skip to contact
       </a>
     </div>
+    
+    <!-- High contrast mode detection -->
+    <script is:inline>
+      // High contrast mode detection
+      if (window.matchMedia('(prefers-contrast: high)').matches) {
+        document.documentElement.classList.add('high-contrast');
+      }
+      
+      // Reduced motion detection
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('reduce-motion');
+      }
+    </script>
     
     <!-- Main content -->
     <main id="main-content">
@@ -132,6 +193,44 @@ const canonicalURL = new URL(canonical || Astro.url.pathname, Astro.site);
             document.documentElement.classList.toggle('dark', e.matches);
           }
         });
+      })();
+    </script>
+    
+    <!-- Performance tracking script -->
+    <script is:inline>
+      // Core Web Vitals tracking
+      (function() {
+        // Track LCP
+        if ('PerformanceObserver' in window) {
+          try {
+            const lcpObserver = new PerformanceObserver((list) => {
+              const entries = list.getEntries();
+              const lastEntry = entries[entries.length - 1];
+              if (lastEntry && process.env.NODE_ENV === 'development') {
+                console.log('LCP:', lastEntry.startTime + 'ms');
+              }
+            });
+            lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+          } catch (e) {
+            // Fallback for unsupported browsers
+          }
+        }
+        
+        // Track FCP
+        if ('PerformanceObserver' in window) {
+          try {
+            const fcpObserver = new PerformanceObserver((list) => {
+              const entries = list.getEntries();
+              const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
+              if (fcpEntry && process.env.NODE_ENV === 'development') {
+                console.log('FCP:', fcpEntry.startTime + 'ms');
+              }
+            });
+            fcpObserver.observe({ entryTypes: ['paint'] });
+          } catch (e) {
+            // Fallback for unsupported browsers
+          }
+        }
       })();
     </script>
   </body>

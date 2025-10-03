@@ -1,4 +1,7 @@
-// UI Components Export
+// UI Components Export - TypeScript-friendly barrel exports
+// Using proper TypeScript module declarations for Astro components
+
+// Astro Components - properly typed with module declarations
 export { default as Button } from './Button.astro';
 export { default as Card } from './Card.astro';
 export { default as Input } from './Input.astro';

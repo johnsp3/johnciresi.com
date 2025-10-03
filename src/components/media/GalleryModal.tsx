@@ -1,6 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import GalleryImage from './GalleryImage';
+import GalleryControls from './GalleryControls';
+import GalleryDescription, {
+  getGalleryOverlayContent,
+} from './GalleryDescription';
+import GalleryKeyboard from './GalleryKeyboard';
 
 // Types
 export interface MediaItem {
@@ -29,45 +34,31 @@ interface GalleryModalProps {
   hasPrev: boolean;
   currentIndex: number;
   isMobile?: boolean;
-  onNavigate?: () => void; // Callback when navigating between photos
+  onNavigate?: () => void;
   showDescriptionPopup?: boolean;
   onToggleDescriptionPopup?: (show: boolean) => void;
 }
 
-// Gallery Modal Component
-const GalleryModal: React.FC<GalleryModalProps> = ({ 
-  category, 
-  isOpen, 
-  onClose, 
-  onNext, 
-  onPrev, 
-  hasNext, 
-  hasPrev, 
+const GalleryModal: React.FC<GalleryModalProps> = ({
+  category,
+  isOpen,
+  onClose,
+  onNext,
+  onPrev,
+  hasNext,
+  hasPrev,
   currentIndex,
   isMobile = false,
   onNavigate,
   showDescriptionPopup = false,
-  onToggleDescriptionPopup
+  onToggleDescriptionPopup,
 }) => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const imageRef = useRef<HTMLImageElement>(null);
 
   // Minimum distance for swipe
   const minSwipeDistance = 50;
-
-  // Helper function to truncate description for mobile
-  const truncateDescription = (text: string, maxWords: number = 8): string => {
-    const words = text.split(' ');
-    if (words.length <= maxWords) return text;
-    return words.slice(0, maxWords).join(' ') + '...';
-  };
-
-  // Check if description needs truncation (mobile only)
-  const shouldTruncate = (text: string): boolean => {
-    return text.split(' ').length > 8;
-  };
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
@@ -80,7 +71,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
 
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
@@ -93,101 +84,16 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
     if (isLeftSwipe && hasNext && !isTransitioning) {
       setIsTransitioning(true);
       onNext();
-      onNavigate?.(); // Call navigation callback
+      onNavigate?.();
       setTimeout(() => setIsTransitioning(false), 200);
     }
     if (isRightSwipe && hasPrev && !isTransitioning) {
       setIsTransitioning(true);
       onPrev();
-      onNavigate?.(); // Call navigation callback
+      onNavigate?.();
       setTimeout(() => setIsTransitioning(false), 200);
     }
   };
-  useEffect(() => {
-    if (isOpen) {
-      // Hide all page content except the modal to prevent any bleeding
-      document.body.classList.add('gallery-modal-open');
-      
-      // Prevent navigation when gallery is open
-      const preventNavigation = (e: Event) => {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      };
-
-      // Prevent all navigation links from working when gallery is open
-      const navigationLinks = document.querySelectorAll('a[href^="#"]');
-      navigationLinks.forEach(link => {
-        link.addEventListener('click', preventNavigation, true);
-      });
-
-      const keyHandler = (e: KeyboardEvent) => {
-        switch (e.key) {
-          case 'Escape':
-            onClose();
-            break;
-          case 'ArrowLeft':
-            if (hasPrev) onPrev();
-            break;
-          case 'ArrowRight':
-            if (hasNext) onNext();
-            break;
-        }
-      };
-      
-      // Focus management for accessibility
-      const focusableElements = document.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      const firstFocusableElement = focusableElements[0] as HTMLElement;
-      const lastFocusableElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-      
-      // Store the previously focused element
-      const previouslyFocusedElement = document.activeElement as HTMLElement;
-      
-      // Focus the first focusable element in the modal
-      if (firstFocusableElement) {
-        firstFocusableElement.focus();
-      }
-      
-      // Trap focus within the modal
-      const trapFocus = (e: KeyboardEvent) => {
-        if (e.key === 'Tab') {
-          if (e.shiftKey) {
-            if (document.activeElement === firstFocusableElement) {
-              lastFocusableElement?.focus();
-              e.preventDefault();
-            }
-          } else {
-            if (document.activeElement === lastFocusableElement) {
-              firstFocusableElement?.focus();
-              e.preventDefault();
-            }
-          }
-        }
-      };
-      
-      document.addEventListener('keydown', keyHandler);
-      document.addEventListener('keydown', trapFocus);
-      document.body.style.overflow = 'hidden';
-      
-      return () => {
-        // Remove gallery modal class and restore page content
-        document.body.classList.remove('gallery-modal-open');
-        
-        // Remove navigation prevention
-        navigationLinks.forEach(link => {
-          link.removeEventListener('click', preventNavigation, true);
-        });
-        
-        document.removeEventListener('keydown', keyHandler);
-        document.removeEventListener('keydown', trapFocus);
-        document.body.style.overflow = 'unset';
-        // Restore focus to previously focused element
-        previouslyFocusedElement?.focus();
-      };
-    }
-  }, [isOpen, onClose, onNext, onPrev, hasNext, hasPrev]);
 
   if (!category) return null;
 
@@ -201,7 +107,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/95 backdrop-blur-sm"
-          style={{ 
+          style={{
             position: 'fixed',
             top: 0,
             left: 0,
@@ -211,13 +117,11 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
             height: '100vh',
             isolation: 'isolate',
             zIndex: 99999,
-            // Additional isolation to prevent content bleeding
             backgroundColor: 'rgba(0, 0, 0, 0.95)',
             backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)'
+            WebkitBackdropFilter: 'blur(8px)',
           }}
-          onClick={(e) => {
-            // Only close if clicking the backdrop, not the image or controls
+          onClick={e => {
             if (e.target === e.currentTarget) {
               onClose();
             }
@@ -227,192 +131,56 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
           aria-labelledby="gallery-modal-title"
           aria-describedby="gallery-modal-description"
         >
-          {/* Close Button */}
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onClose();
-            }}
-            className="absolute top-6 right-6 z-[100000] p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20"
-            aria-label="Close gallery"
-          >
-            <X className="w-6 h-6 text-white" />
-          </motion.button>
+          {/* Keyboard and Focus Management */}
+          <GalleryKeyboard
+            isOpen={isOpen}
+            onClose={onClose}
+            onNext={onNext}
+            onPrev={onPrev}
+            hasNext={hasNext}
+            hasPrev={hasPrev}
+          />
 
-          {/* Navigation Buttons */}
-          {hasPrev && (
-            <motion.button
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (!isTransitioning) {
-                  setIsTransitioning(true);
-                  onPrev();
-                  onNavigate?.(); // Call navigation callback
-                  setTimeout(() => setIsTransitioning(false), 200);
-                }
-              }}
-              className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-[10000] p-2 sm:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/20 touch-manipulation"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-            </motion.button>
-          )}
+          {/* Controls */}
+          <GalleryControls
+            onClose={onClose}
+            onNext={onNext}
+            onPrev={onPrev}
+            hasNext={hasNext}
+            hasPrev={hasPrev}
+            isTransitioning={isTransitioning}
+            onNavigate={onNavigate}
+          />
 
-          {hasNext && (
-            <motion.button
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (!isTransitioning) {
-                  setIsTransitioning(true);
-                  onNext();
-                  onNavigate?.(); // Call navigation callback
-                  setTimeout(() => setIsTransitioning(false), 200);
-                }
-              }}
-              className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-[10000] p-2 sm:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/20 touch-manipulation"
-              aria-label="Next image"
-            >
-              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-            </motion.button>
-          )}
-
-          {/* Image Container */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ type: "spring", damping: 30, stiffness: 400, duration: 0.3 }}
-            className="relative max-w-7xl max-h-[90vh] mx-6 z-[100001]"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
+          {/* Image with Overlay */}
+          <GalleryImage
+            currentItem={currentItem}
+            currentIndex={currentIndex}
+            totalItems={category.items.length}
+            categoryTitle={category.title}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-          >
-            {/* Image */}
-            <img
-              ref={imageRef}
-              src={currentItem.src}
-              alt={`${currentItem.alt} - Image ${currentIndex + 1} of ${category.items.length} in ${category.title} gallery`}
-              className="max-w-full max-h-[90vh] object-contain rounded-2xl transition-opacity duration-200"
-              loading="eager"
-              decoding="async"
-              style={{ 
-                willChange: 'transform',
-                backfaceVisibility: 'hidden',
-                transform: 'translateZ(0)'
-              }}
-            />
-
-            {/* Desktop: Full Image Info */}
-            {!isMobile && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: 0.2 }}
-                className="absolute bottom-6 left-6 right-6 bg-black/50 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
-              >
-                <h3 id="gallery-modal-title" className="text-2xl font-extralight tracking-wide text-white mb-2">
-                  {currentItem.title}
-                </h3>
-                <p id="gallery-modal-description" className="text-white/70 font-light leading-relaxed mb-2">
-                  {currentItem.description}
-                </p>
-                <p className="text-white/50 text-sm font-light">
-                  {currentIndex + 1} of {category.items.length} • {category.title}
-                </p>
-              </motion.div>
+            overlayContent={getGalleryOverlayContent(
+              currentItem,
+              currentIndex,
+              category.items.length,
+              category.title,
+              isMobile,
+              onToggleDescriptionPopup || (() => {})
             )}
-
-            {/* Mobile: Small Read More Strip */}
-            {isMobile && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: 0.2 }}
-                className="absolute bottom-6 left-6 right-6"
-              >
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    onToggleDescriptionPopup?.(true);
-                  }}
-                  className="w-full bg-black/30 backdrop-blur-sm rounded-lg p-3 border border-white/20 hover:bg-black/40 transition-all duration-200"
-                >
-                  <p className="text-white/90 text-sm font-medium text-center">
-                    Read more
-                  </p>
-                </button>
-              </motion.div>
-            )}
-          </motion.div>
+          />
 
           {/* Mobile Description Popup */}
-          <AnimatePresence>
-            {isMobile && showDescriptionPopup && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[100002] flex items-center justify-center bg-black/80 backdrop-blur-sm"
-                onClick={(e) => {
-                  if (e.target === e.currentTarget) {
-                    onToggleDescriptionPopup?.(false);
-                  }
-                }}
-              >
-                <motion.div
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.9, opacity: 0 }}
-                  transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                  className="relative max-w-sm mx-6 bg-black/70 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                >
-                  {/* Close button */}
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      onToggleDescriptionPopup?.(false);
-                    }}
-                    className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200"
-                    aria-label="Close description"
-                  >
-                    <X className="w-4 h-4 text-white" />
-                  </button>
-
-                  {/* Content */}
-                  <h4 className="text-xl font-extralight tracking-wide text-white mb-3 pr-8">
-                    {currentItem.title}
-                  </h4>
-                  <p className="text-white/70 font-light leading-relaxed text-sm">
-                    {currentItem.description}
-                  </p>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <GalleryDescription
+            currentItem={currentItem}
+            currentIndex={currentIndex}
+            totalItems={category.items.length}
+            categoryTitle={category.title}
+            isMobile={isMobile}
+            showDescriptionPopup={showDescriptionPopup}
+            onToggleDescriptionPopup={onToggleDescriptionPopup || (() => {})}
+          />
         </motion.div>
       )}
     </AnimatePresence>

@@ -5,4 +5,4 @@ export default {
   },
   // Suppress PostCSS warnings for deprecated color-adjust
   map: false,
-}
+};
