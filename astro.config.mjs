@@ -36,7 +36,6 @@ export default defineConfig({
     // Optimize dependencies
     optimizeDeps: {
       include: ['react', 'react-dom', 'lucide-react', 'framer-motion'],
-      exclude: ['@astrojs/vercel'],
     },
     // Performance optimizations
     ssr: {
@@ -60,8 +59,6 @@ export default defineConfig({
     speedInsights: { enabled: true },
     imageService: true,
     devImageService: true,
-    functionPerRoute: false,
-    edgeMiddleware: true,
   }),
 
   // Build optimizations
