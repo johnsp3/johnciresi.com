@@ -1,19 +1,5 @@
 // UI Components Export - TypeScript-friendly barrel exports
-// Using proper TypeScript module declarations for Astro components
-
-// Astro Components - properly typed with module declarations
-export { default as Button } from './Button.astro';
-export { default as Card } from './Card.astro';
-export { default as Input } from './Input.astro';
-export { default as Section } from './Section.astro';
-export { default as Heading } from './Heading.astro';
-export { default as Divider } from './Divider.astro';
-export { default as Navigation } from './Navigation.astro';
-export { default as ScrollIndicator } from './ScrollIndicator.astro';
-export { default as Footer } from './Footer.astro';
-export { default as EBookSection } from './EBookSection.astro';
-
-// React Components
+// React Components only (Astro components are imported directly in .astro files)
 export { default as ErrorBoundary } from './ErrorBoundary';
 
 // Interactive Components

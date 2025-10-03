@@ -14,6 +14,7 @@ interface ContactFormData {
 
 interface NewsletterData {
   email: string;
+  name?: string;
   website?: string;
 }
 

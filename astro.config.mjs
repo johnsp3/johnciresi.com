@@ -53,7 +53,7 @@ export default defineConfig({
     },
   },
 
-  // Vercel adapter for serverless functions
+  // Vercel adapter for static deployment
   adapter: vercel({
     webAnalytics: { enabled: false },
     speedInsights: { enabled: true },
@@ -76,8 +76,8 @@ export default defineConfig({
     },
   },
 
-  // Output configuration
-  output: 'server',
+  // Output configuration - static for now
+  output: 'static',
   site:
     process.env.NODE_ENV === 'production'
       ? 'https://johnciresi.com'

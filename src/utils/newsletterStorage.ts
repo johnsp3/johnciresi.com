@@ -38,7 +38,7 @@ export async function getSubscribers(): Promise<NewsletterSubscriber[]> {
     await ensureDataDirectory();
     const data = await fs.readFile(STORAGE_FILE, 'utf-8');
     return JSON.parse(data);
-  } catch (error) {
+  } catch (_error) {
     // File doesn't exist or is invalid, return empty array
     return [];
   }
