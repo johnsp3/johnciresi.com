@@ -24,10 +24,10 @@ export interface EnvConfig {
 export function getEnvConfig(): EnvConfig {
   const requiredVars = {
     resendApiKey: process.env.RESEND_API_KEY || 'not-configured',
-    resendFromEmail: process.env.RESEND_FROM_EMAIL || 'noreply@johnciresi.com',
+    resendFromEmail: process.env.RESEND_FROM_EMAIL || 'hello@johnciresi.com',
     resendFromName: process.env.RESEND_FROM_NAME || 'John Ciresi',
     contactEmail: process.env.CONTACT_EMAIL || 'admin@johnciresi.com',
-    fromEmail: process.env.FROM_EMAIL || 'noreply@johnciresi.com',
+    fromEmail: process.env.FROM_EMAIL || 'hello@johnciresi.com',
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://johnciresi.vercel.app',
     siteName: process.env.NEXT_PUBLIC_SITE_NAME || 'John Ciresi',
     emailSecret: process.env.EMAIL_SECRET || 'default-secret',

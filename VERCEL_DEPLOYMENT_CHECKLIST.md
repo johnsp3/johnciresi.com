@@ -8,7 +8,7 @@
 RESEND_API_KEY=re_3ZS4Q81r_NmGyPHP9BmEPhygdx622F7uS
 
 # Email Configuration
-FROM_EMAIL=noreply@johnciresi.com
+FROM_EMAIL=hello@johnciresi.com
 TO_EMAIL=media@johnciresi.com
 FROM_NAME=John Ciresi
 

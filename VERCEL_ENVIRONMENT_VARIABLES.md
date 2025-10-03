@@ -11,7 +11,7 @@ RESEND_API_KEY=your_actual_resend_api_key_here
 
 ### 2. Email Configuration
 ```
-FROM_EMAIL=noreply@johnciresi.com
+FROM_EMAIL=hello@johnciresi.com
 TO_EMAIL=media@johnciresi.com
 FROM_NAME=John Ciresi
 ```

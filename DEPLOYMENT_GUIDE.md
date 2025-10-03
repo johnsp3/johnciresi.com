@@ -15,13 +15,13 @@ In your Vercel dashboard, add these environment variables:
 ```bash
 # Resend Configuration
 RESEND_API_KEY=re_ATnzc1qj_FeEQaa9GLbjTPK2JXtf9FpgS
-RESEND_FROM_EMAIL=noreply@johnciresi.com
+RESEND_FROM_EMAIL=hello@johnciresi.com
 RESEND_FROM_NAME="John Ciresi"
 
 # Site Configuration
 NEXT_PUBLIC_BASE_URL=https://johnciresi.com
 NEXT_PUBLIC_SITE_NAME="John Ciresi"
-FROM_EMAIL=noreply@johnciresi.com
+FROM_EMAIL=hello@johnciresi.com
 CONTACT_EMAIL=media@johnciresi.com
 
 # Security Keys
@@ -110,7 +110,7 @@ To test locally with environment variables:
 ### Resend Setup
 
 - API key is already configured
-- From email: `noreply@johnciresi.com`
+- From email: `hello@johnciresi.com`
 - Contact email: `media@johnciresi.com`
 
 ### Email Templates
