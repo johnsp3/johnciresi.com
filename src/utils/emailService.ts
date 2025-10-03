@@ -6,8 +6,17 @@
 import { Resend } from 'resend';
 import { getEnvConfig } from './env.js';
 
-const env = getEnvConfig();
-const resend = env.resendApiKey !== 'not-configured' ? new Resend(env.resendApiKey) : null;
+let resend: Resend | null = null;
+
+try {
+  const env = getEnvConfig();
+  if (env.resendApiKey !== 'not-configured') {
+    resend = new Resend(env.resendApiKey);
+  }
+} catch (error) {
+  // Silently handle environment configuration errors
+  console.warn('Email service not configured:', error);
+}
 
 export interface ContactFormData {
   name: string;
