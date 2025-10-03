@@ -7,7 +7,7 @@ import { Resend } from 'resend';
 import { getEnvConfig } from './env.js';
 
 const env = getEnvConfig();
-const resend = new Resend(env.resendApiKey);
+const resend = env.resendApiKey !== 'not-configured' ? new Resend(env.resendApiKey) : null;
 
 export interface ContactFormData {
   name: string;
@@ -23,6 +23,10 @@ export interface NewsletterData {
  * Sends contact form email to admin and confirmation to user
  */
 export async function sendContactEmail(data: ContactFormData): Promise<void> {
+  if (!resend) {
+    throw new Error('Email service not configured. Please add RESEND_API_KEY to environment variables.');
+  }
+
   const { name, email, message } = data;
 
   // Email to admin (media@johnciresi.com)
@@ -100,6 +104,10 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
 export async function sendNewsletterWelcome(
   data: NewsletterData
 ): Promise<void> {
+  if (!resend) {
+    throw new Error('Email service not configured. Please add RESEND_API_KEY to environment variables.');
+  }
+
   const { email } = data;
 
   const welcomeEmail = await resend.emails.send({
