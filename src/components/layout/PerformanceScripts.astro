@@ -1,0 +1,45 @@
+---
+// Performance tracking scripts
+---
+
+<!-- Performance tracking script -->
+<script is:inline>
+  // Core Web Vitals tracking
+  (function() {
+    // Track LCP
+    if ('PerformanceObserver' in window) {
+      try {
+        const lcpObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          const lastEntry = entries[entries.length - 1];
+          if (lastEntry && process.env.NODE_ENV === 'development') {
+            import('@/utils/logger').then(({ logPerformance }) => {
+              logPerformance('LCP', lastEntry.startTime, { component: 'PerformanceScripts' });
+            });
+          }
+        });
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+      } catch (e) {
+        // Fallback for unsupported browsers
+      }
+    }
+    
+    // Track FCP
+    if ('PerformanceObserver' in window) {
+      try {
+        const fcpObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
+          if (fcpEntry && process.env.NODE_ENV === 'development') {
+            import('@/utils/logger').then(({ logPerformance }) => {
+              logPerformance('FCP', fcpEntry.startTime, { component: 'PerformanceScripts' });
+            });
+          }
+        });
+        fcpObserver.observe({ entryTypes: ['paint'] });
+      } catch (e) {
+        // Fallback for unsupported browsers
+      }
+    }
+  })();
+</script>

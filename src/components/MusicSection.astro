@@ -1,0 +1,61 @@
+---
+import { albums } from '../data/audio';
+import FeaturedAlbumPlayer from './FeaturedAlbumPlayer.tsx';
+import ErrorBoundary from './ui/ErrorBoundary';
+
+// Format duration from seconds to MM:SS
+const formatDuration = (seconds: number): string => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
+
+// Transform album data
+const albumData = albums.map(album => ({
+  id: album.id,
+  title: album.title,
+  year: album.year,
+  genre: album.genre || 'Rock',
+  coverImage: album.coverImage || '/images/placeholder-album.png',
+  tracks: album.tracks.map(track => ({
+    id: track.id,
+    title: track.title,
+    duration: formatDuration(track.duration),
+    url: track.url,
+  })),
+}));
+---
+
+<section id="music" class="section-container scroll-mt-20">
+  <!-- Section Header -->
+  <div class="text-center mb-16 animate-fade-in">
+    <h2 class="gradient-text text-balance mb-6">
+      My Music
+    </h2>
+    <p class="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto">
+      Select an album below, then click the cover to play.
+    </p>
+  </div>
+
+  <!-- Music Player Layout -->
+  <ErrorBoundary client:load>
+    <FeaturedAlbumPlayer albums={albumData} client:load />
+  </ErrorBoundary>
+</section>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+</style>

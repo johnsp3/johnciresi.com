@@ -1,4 +1,5 @@
 ---
+
 export interface Props {
   class?: string;
 }
@@ -6,88 +7,113 @@ export interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<section class={`py-40 bg-white relative overflow-hidden ${className}`}>
-  <!-- Sophisticated Background Elements -->
-  <div class="absolute inset-0">
-    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
-    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
-  </div>
-  
-  <div class="max-w-6xl mx-auto px-6 relative z-10">
+<section id="ebook" class={`section-container ${className}`}>
+  <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center mb-16">
-      <h2 class="text-4xl sm:text-5xl font-extralight tracking-tight text-black mb-6">
-        BEYOND MUSIC
+    <div class="text-center mb-16 md:mb-20 animate-fade-in">
+      <h2 class="gradient-text text-balance mb-6">
+        The Visual Man
       </h2>
-      <div class="w-16 h-px bg-gradient-to-r from-transparent via-gray-400/60 to-transparent mx-auto mb-8"></div>
-      <p class="text-lg text-gray-600 font-light tracking-wide max-w-2xl mx-auto leading-relaxed">
-        Exploring creativity through the written word
+      <p class="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto">
+        How words and images work together to create feeling
       </p>
     </div>
     
     <!-- E-Book Display -->
     <div class="flex flex-col lg:flex-row items-center gap-16 max-w-5xl mx-auto">
       <!-- E-Book Cover -->
-      <div class="group cursor-pointer flex-shrink-0">
-        <div class="w-80 h-[570px] relative overflow-hidden border border-gray-200/20 rounded-2xl shadow-apple">
-          <img 
-            src="/images/e-book/The Visual Man Cover.png" 
-            alt="The Visual Man E-Book Cover"
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          />
-          <div class="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-all duration-700"></div>
-          
-          <!-- Coming Soon Badge -->
-          <div class="absolute top-4 right-4">
-            <div class="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full border border-white/20">
-              <span class="text-xs font-medium tracking-wide text-gray-800 uppercase">Coming Soon</span>
+      <div class="group flex-shrink-0 animate-slide-in-left">
+        <div class="relative">
+          <!-- Glow Effect -->
+          <div class="absolute -inset-4 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-gold rounded-3xl opacity-30 group-hover:opacity-50 blur-2xl transition-opacity duration-500"></div>
+
+          <div class="relative w-80 h-[480px] overflow-hidden border border-dark-border/50 rounded-3xl shadow-premium-lg transition-all duration-500 group-hover:scale-105 group-hover:shadow-[0_0_40px_rgba(30,64,175,0.3)]">
+            <img
+              src="/images/e-book/visual-man-cover.png"
+              alt="The Visual Man E-Book Cover"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              loading="lazy"
+            />
+
+            <!-- Coming 2026 Badge -->
+            <div class="absolute top-4 right-4">
+              <div class="px-4 py-2 bg-accent-primary/90 backdrop-blur-sm rounded-full border border-accent-primary/50 transition-all duration-300 group-hover:bg-accent-primary">
+                <span class="text-sm font-semibold tracking-wide text-white uppercase">Coming 2026</span>
+              </div>
             </div>
+
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent opacity-40"></div>
           </div>
-          
-          <!-- Subtle glow effect -->
-          <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
         </div>
       </div>
-      
+
       <!-- E-Book Content -->
-      <div class="flex-1 space-y-8">
-        <div>
-          <h3 class="text-3xl font-extralight tracking-wide text-black mb-4">
-            The Visual Man
+      <div class="flex-1 space-y-8 animate-slide-in-right">
+        <div class="space-y-6">
+          <h3 class="text-text-primary text-2xl font-semibold mb-4">
+            The Visual Man – From Song to Book
           </h3>
-          <p class="text-gray-600 font-light tracking-wide mb-6 text-lg">
-            E-Book • In Progress • Creative Writing
+
+          <p class="text-text-secondary text-lg leading-relaxed">
+            "The Visual Man" began as a song about storytelling and imagination — how the right words create vivid pictures in someone's mind. That creative seed grew into this book, which explores how language, music, and visual art work together to trigger emotion and imagination.
           </p>
-          <p class="text-gray-500 font-light leading-relaxed text-base mb-6">
-            An exploration of visual storytelling and creative expression through the written word. 
-            This e-book delves into the intersection of music, art, and narrative, offering insights 
-            into the creative process that shapes both sound and story.
+
+          <p class="text-text-secondary text-lg leading-relaxed">
+            It's about understanding the psychology of creative communication and how words and images can inspire, move, and engage. Drawing on the song's themes, the book explains how words create mental pictures, how those pictures spark emotions, and how those principles show up in my music and artwork.
           </p>
-          <p class="text-gray-400 font-light text-sm italic">
+
+          <p class="text-text-secondary text-lg leading-relaxed">
+            At the same time, it's honest about the psychological and persuasive elements at play and explores the workings of NLP (Neuro-Linguistic Programming) as part of understanding how creative communication influences people.
+          </p>
+
+          <p class="text-text-secondary/70 text-sm italic mt-6">
             Artwork by John Ciresi
           </p>
         </div>
-        
-        <!-- Excerpt Preview -->
-        <div class="bg-gray-50/50 border border-gray-200/30 rounded-xl p-6 backdrop-blur-sm">
-          <h4 class="text-lg font-light tracking-wide text-black mb-4">
-            Preview Excerpt
-          </h4>
-          <blockquote class="text-gray-600 font-light leading-relaxed italic text-base">
-            "In the space between sound and silence, between light and shadow, 
-            the visual man emerges—not as a figure, but as a feeling, a moment 
-            of pure creative expression that transcends the boundaries of medium..."
-          </blockquote>
-        </div>
-        
+
         <!-- Status Indicator -->
-        <div class="flex items-center space-x-3">
-          <div class="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
-          <span class="text-sm font-light tracking-wide text-gray-500">
-            Currently in development
+        <div class="flex items-center space-x-3 pt-4">
+          <div class="w-2 h-2 bg-accent-primary rounded-full animate-pulse"></div>
+          <span class="text-sm text-text-secondary">
+            Currently in development • Expected early 2026
           </span>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.8s ease-out 0.3s forwards;
+    opacity: 0;
+  }
+</style>

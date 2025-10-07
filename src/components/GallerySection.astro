@@ -1,0 +1,270 @@
+---
+// Gallery Section Component
+import { galleryCategories } from '../data/galleryData';
+
+interface GalleryImage {
+  id: string;
+  src: string;
+  alt: string;
+  title: string;
+  description: string;
+  category: string;
+}
+
+// Flatten all gallery images with proper descriptions
+const galleryImages: GalleryImage[] = galleryCategories.flatMap(category => 
+  category.items.map(item => ({
+    id: item.id,
+    src: item.src,
+    alt: item.alt,
+    title: item.title,
+    description: item.description,
+    category: category.title
+  }))
+);
+
+const categories = ['All', 'Home Studio', 'Behind The Scenes', 'The Archives'];
+---
+
+<section id="gallery" class="section-container scroll-mt-20">
+  <!-- Section Header -->
+  <div class="text-center mb-16 md:mb-20 animate-fade-in">
+    <h2 class="gradient-text text-balance mb-6">
+      Gallery
+    </h2>
+    <p class="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto">
+      Photos from the studio
+    </p>
+  </div>
+
+  <!-- Category Filters -->
+  <div class="flex flex-wrap justify-center gap-3 mb-12 animate-fade-in-delay">
+    {categories.map((category) => (
+      <button
+        class="gallery-filter px-6 py-3 rounded-full bg-dark-elevated text-text-secondary hover:text-text-primary border border-dark-border hover:border-accent-primary transition-all duration-300 hover:scale-105 font-medium"
+        data-category={category.toLowerCase()}
+      >
+        {category}
+      </button>
+    ))}
+  </div>
+
+  <!-- Gallery Placeholder -->
+  <div id="gallery-placeholder" class="text-center py-20">
+    <p class="text-xl text-text-secondary font-light">
+      Select a category above to view photos
+    </p>
+  </div>
+
+  <!-- Masonry Gallery Grid (Hidden by default) -->
+  <div class="gallery-masonry animate-fade-in-delay-2 hidden" id="gallery-grid">
+    {galleryImages.map((image, index) => (
+      <div
+        class="gallery-item hidden"
+        data-category={image.category.toLowerCase()}
+        style={`animation-delay: ${index * 0.05}s`}
+      >
+        <div class="relative group cursor-pointer overflow-hidden rounded-2xl border border-dark-border/50 hover:border-accent-primary/50 transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(30,64,175,0.3)]">
+          <!-- Image -->
+          <img
+            src={image.src}
+            alt={image.alt}
+            class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
+            loading="lazy"
+          />
+
+          <!-- Overlay - Only show on hover with description -->
+          <div class="absolute inset-0 bg-gradient-to-t from-dark-bg via-dark-bg/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <p class="text-white text-sm leading-relaxed">{image.description}</p>
+            </div>
+          </div>
+
+          <!-- View Icon -->
+          <div class="absolute top-4 right-4 w-10 h-10 rounded-full bg-dark-elevated/80 backdrop-blur-sm border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100">
+            <svg class="w-5 h-5 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox-modal" class="fixed inset-0 bg-dark-bg/95 backdrop-blur-xl z-50 hidden items-center justify-center p-4">
+  <button id="close-lightbox" class="absolute top-6 right-6 w-12 h-12 rounded-full bg-dark-elevated/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-text-primary hover:text-accent-primary transition-colors z-10">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
+
+  <div class="max-w-6xl w-full">
+    <img id="lightbox-image" src="" alt="" class="w-full h-auto rounded-3xl border border-dark-border/50 shadow-premium-lg" />
+    <div id="lightbox-caption" class="mt-6 text-center">
+      <h3 class="text-xl font-bold text-text-primary mb-2"></h3>
+      <p class="text-text-secondary"></p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gallery-masonry {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    grid-auto-flow: dense;
+  }
+
+  @media (min-width: 768px) {
+    .gallery-masonry {
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+  }
+
+  .gallery-item {
+    opacity: 0;
+    animation: fadeInScale 0.6s ease-out forwards;
+  }
+
+  .gallery-item.hidden {
+    display: none;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-delay {
+    animation: fadeIn 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in-delay-2 {
+    animation: fadeIn 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in-delay-3 {
+    animation: fadeIn 0.8s ease-out 0.6s forwards;
+    opacity: 0;
+  }
+
+  .gallery-filter.active {
+    @apply bg-accent-primary text-white border-accent-primary;
+  }
+</style>
+
+<script>
+  // Gallery filtering
+  const filterButtons = document.querySelectorAll('.gallery-filter');
+  const galleryItems = document.querySelectorAll('.gallery-item');
+  const galleryGrid = document.getElementById('gallery-grid');
+  const galleryPlaceholder = document.getElementById('gallery-placeholder');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const category = button.getAttribute('data-category');
+
+      // Update active state
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Show gallery grid and hide placeholder
+      if (galleryGrid && galleryPlaceholder) {
+        galleryGrid.classList.remove('hidden');
+        galleryGrid.style.display = 'grid';
+        galleryPlaceholder.classList.add('hidden');
+      }
+
+      // Filter items
+      galleryItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+
+        if (category === 'all' || itemCategory === category) {
+          item.classList.remove('hidden');
+          item.style.display = 'block';
+        } else {
+          item.classList.add('hidden');
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Don't set any filter as active by default - let user choose
+
+  // Lightbox functionality
+  const lightbox = document.getElementById('lightbox-modal');
+  const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const closeLightbox = document.getElementById('close-lightbox');
+
+  galleryItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('img');
+      if (img && lightboxImage && lightboxCaption) {
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+
+        const captionTitle = lightboxCaption.querySelector('h3');
+        const captionText = lightboxCaption.querySelector('p');
+        if (captionTitle && captionText) {
+          captionTitle.textContent = img.alt;
+          captionText.textContent = item.getAttribute('data-category') || '';
+        }
+
+        lightbox?.classList.remove('hidden');
+        lightbox?.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  closeLightbox?.addEventListener('click', () => {
+    lightbox?.classList.add('hidden');
+    lightbox?.classList.remove('flex');
+    document.body.style.overflow = 'auto';
+  });
+
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      document.body.style.overflow = 'auto';
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox?.classList.contains('flex')) {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      document.body.style.overflow = 'auto';
+    }
+  });
+</script>

@@ -23,34 +23,9 @@ const AlbumSelector: React.FC<AlbumSelectorProps> = ({ className = '' }) => {
 
   // Update featured album display when selection changes
   useEffect(() => {
-    const album = albums.find(a => a.id === selectedAlbumId);
-    if (album) {
-      const coverElement = document.getElementById('featured-album-cover');
-      const titleElement = document.getElementById('featured-album-title');
-      const yearElement = document.getElementById('featured-album-year');
-      const descriptionElement = document.getElementById(
-        'featured-album-description'
-      );
-      const creditElement = document.getElementById(
-        'featured-album-artwork-credit'
-      );
-
-      if (coverElement && coverElement instanceof HTMLImageElement) {
-        coverElement.src = album.coverImage || '';
-      }
-      if (titleElement) titleElement.textContent = album.title;
-      if (yearElement)
-        yearElement.textContent = `${album.certification} • ${album.year}`;
-      if (descriptionElement)
-        descriptionElement.textContent = album.description;
-      if (creditElement)
-        creditElement.textContent =
-          album.artworkCredit || 'Artwork by John Ciresi';
-
-      // Set data attribute for FeaturedAlbum to read
-      document.body.setAttribute('data-selected-album', selectedAlbumId);
-    }
-  }, [selectedAlbumId, isMobile]);
+    // Set data attribute for FeaturedAlbum to read
+    document.body.setAttribute('data-selected-album', selectedAlbumId);
+  }, [selectedAlbumId]);
 
   const handleAlbumSelect = (albumId: string) => {
     setSelectedAlbumId(albumId);

@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/johnchezik/Desktop/**)",
+      "Bash(cd:*)",
+      "Bash(npm run build:*)",
+      "Bash(awk:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(open:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(PORT=3000 npm run dev)",
+      "Bash(cat:*)",
+      "Bash(vercel env:*)",
+      "Bash(vercel project:*)",
+      "Bash(vercel:*)",
+      "Bash(echo:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

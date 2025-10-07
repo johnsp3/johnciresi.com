@@ -25,7 +25,7 @@ export function getSecurityHeaders(): SecurityHeaders {
       "base-uri 'self'",
       "form-action 'self'",
       "object-src 'none'",
-      "upgrade-insecure-requests"
+      'upgrade-insecure-requests',
     ].join('; '),
 
     // X-Frame-Options - Prevents clickjacking
@@ -50,7 +50,7 @@ export function getSecurityHeaders(): SecurityHeaders {
       'usb=()',
       'magnetometer=()',
       'gyroscope=()',
-      'accelerometer=()'
+      'accelerometer=()',
     ].join(', '),
 
     // Strict-Transport-Security - Forces HTTPS
@@ -67,8 +67,8 @@ export function getSecurityHeaders(): SecurityHeaders {
 
     // Cache Control for sensitive pages
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-    'Pragma': 'no-cache',
-    'Expires': '0'
+    Pragma: 'no-cache',
+    Expires: '0',
   };
 }
 
@@ -78,13 +78,13 @@ export function getSecurityHeaders(): SecurityHeaders {
 export function getAPISecurityHeaders(): SecurityHeaders {
   return {
     ...getSecurityHeaders(),
-    
+
     // Additional API-specific headers
     'Access-Control-Allow-Origin': 'https://johnciresi.com',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Max-Age': '86400',
-    
+
     // API-specific CSP
     'Content-Security-Policy': [
       "default-src 'none'",
@@ -95,8 +95,8 @@ export function getAPISecurityHeaders(): SecurityHeaders {
       "frame-ancestors 'none'",
       "base-uri 'none'",
       "form-action 'none'",
-      "object-src 'none'"
-    ].join('; ')
+      "object-src 'none'",
+    ].join('; '),
   };
 }
 
@@ -108,7 +108,7 @@ export function getStaticAssetSecurityHeaders(): SecurityHeaders {
     'X-Content-Type-Options': 'nosniff',
     'X-Frame-Options': 'DENY',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
-    'Cache-Control': 'public, max-age=31536000, immutable'
+    'Cache-Control': 'public, max-age=31536000, immutable',
   };
 }
 
@@ -120,11 +120,12 @@ export function applySecurityHeaders(
   type: 'page' | 'api' | 'static' = 'page'
 ): Response {
   const headers = new Headers(response.headers);
-  const securityHeaders = type === 'api' 
-    ? getAPISecurityHeaders() 
-    : type === 'static'
-    ? getStaticAssetSecurityHeaders()
-    : getSecurityHeaders();
+  const securityHeaders =
+    type === 'api'
+      ? getAPISecurityHeaders()
+      : type === 'static'
+        ? getStaticAssetSecurityHeaders()
+        : getSecurityHeaders();
 
   Object.entries(securityHeaders).forEach(([key, value]) => {
     if (Array.isArray(value)) {
@@ -137,7 +138,7 @@ export function applySecurityHeaders(
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
-    headers
+    headers,
   });
 }
 
@@ -147,12 +148,12 @@ export function applySecurityHeaders(
 export function validateOrigin(request: Request): boolean {
   const origin = request.headers.get('origin');
   const referer = request.headers.get('referer');
-  
+
   const allowedOrigins = [
     'https://johnciresi.com',
     'https://www.johnciresi.com',
     'http://localhost:3000', // For development
-    'http://localhost:4321'  // For Astro dev server
+    'http://localhost:4321', // For Astro dev server
   ];
 
   if (origin) {
@@ -190,7 +191,10 @@ export function generateCSRFToken(): string {
 /**
  * Validate CSRF token
  */
-export function validateCSRFToken(token: string, sessionToken: string): boolean {
+export function validateCSRFToken(
+  token: string,
+  sessionToken: string
+): boolean {
   if (!token || !sessionToken) return false;
   return token === sessionToken;
 }

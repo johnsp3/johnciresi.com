@@ -1,8 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import AudioInfo from './AudioInfo';
 import ProgressBar from './ProgressBar';
 import AudioControls from './AudioControls';
 import TrackList from './TrackList';
+import { useAudioPlayer } from './useAudioPlayer';
+import { useAudioDuration } from './useAudioDuration';
+// import type { TrackWithDuration } from '../../utils/audioDuration';
 
 interface Track {
   id: string;
@@ -22,7 +25,7 @@ interface WorkingAudioModalProps {
   onTrackChange?: (index: number) => void;
 }
 
-export default function WorkingAudioModal({
+const WorkingAudioModal = memo(function WorkingAudioModal({
   isOpen,
   onClose,
   tracks,
@@ -33,133 +36,57 @@ export default function WorkingAudioModal({
   const [currentTrackIndex, setCurrentTrackIndex] = useState(
     propCurrentTrackIndex
   );
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(false);
 
-  const audioRef = useRef<HTMLAudioElement>(null);
+  // Use the duration detection hook
+  const {
+    tracks: tracksWithDuration,
+    durationsLoaded,
+    loadingProgress,
+    getDisplayDuration,
+  } = useAudioDuration(tracks);
 
-  const currentTrack = tracks[currentTrackIndex];
+  // Use the custom audio player hook with updated tracks
+  const {
+    audioRef,
+    currentTrack,
+    isPlaying,
+    currentTime,
+    duration,
+    volume,
+    isMuted,
+    setIsPlaying,
+    setIsMuted,
+    setVolume,
+    togglePlayPause,
+    handleNext,
+    handlePrevious,
+    handleProgressClick,
+    handleVolumeClick,
+    handleTrackSelect,
+    formatTime,
+  } = useAudioPlayer({
+    tracks: tracksWithDuration,
+    currentTrackIndex,
+    onTrackChange: handleTrackChange,
+  });
 
   // Sync internal state with prop when it changes
   useEffect(() => {
     setCurrentTrackIndex(propCurrentTrackIndex);
   }, [propCurrentTrackIndex]);
 
+  // Memoize track change handler
+  const handleTrackChange = useCallback((index: number) => {
+    setCurrentTrackIndex(index);
+    onTrackChange?.(index);
+  }, [onTrackChange]);
+
   // Reset playing state when modal opens
   useEffect(() => {
     if (isOpen) {
       setIsPlaying(false);
     }
-  }, [isOpen]);
-
-  const handleNext = () => {
-    const newIndex =
-      currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0;
-    setCurrentTrackIndex(newIndex);
-    onTrackChange?.(newIndex);
-    setIsPlaying(false);
-  };
-
-  const handlePrevious = () => {
-    const newIndex =
-      currentTrackIndex > 0 ? currentTrackIndex - 1 : tracks.length - 1;
-    setCurrentTrackIndex(newIndex);
-    onTrackChange?.(newIndex);
-    setIsPlaying(false);
-  };
-
-  // Load track and set up event listeners when it changes
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !currentTrack) return;
-
-    // Set up event listeners
-    const handleTimeUpdate = () => {
-      setCurrentTime(audio.currentTime);
-    };
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
-    };
-    const handleEnded = () => {
-      setIsPlaying(false);
-      handleNext();
-    };
-
-    // Add event listeners
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('ended', handleEnded);
-
-    // Load the track
-    audio.src = currentTrack.url;
-    audio.load();
-    setCurrentTime(0);
-    setDuration(0);
-
-    // Cleanup function
-    return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('ended', handleEnded);
-    };
-  }, [currentTrackIndex, currentTrack]);
-
-  // Update volume
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : volume;
-    }
-  }, [volume, isMuted]);
-
-  const togglePlayPause = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    const newTime = (clickX / width) * duration;
-
-    audio.currentTime = newTime;
-    setCurrentTime(newTime);
-  };
-
-  const handleVolumeClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    const newVolume = Math.max(0, Math.min(1, clickX / width));
-
-    setVolume(newVolume);
-    setIsMuted(false);
-  };
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  };
-
-  const handleTrackSelect = (index: number) => {
-    setCurrentTrackIndex(index);
-    onTrackChange?.(index);
-    setIsPlaying(false);
-  };
+  }, [isOpen, setIsPlaying]);
 
   if (!isOpen || !currentTrack) return null;
 
@@ -211,14 +138,33 @@ export default function WorkingAudioModal({
           onVolumeClick={handleVolumeClick}
         />
 
+        {/* Duration Loading Indicator */}
+        {!durationsLoaded && (
+          <div className="mb-4 text-center">
+            <div className="text-sm text-gray-400">
+              Loading track durations... {loadingProgress}%
+            </div>
+            <div className="mt-2 h-1 w-full rounded-full bg-gray-700">
+              <div
+                className="h-1 rounded-full bg-blue-500 transition-all duration-300"
+                style={{ width: `${loadingProgress}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         {/* Track List */}
         <TrackList
-          tracks={tracks}
+          tracks={tracksWithDuration}
           currentTrackIndex={currentTrackIndex}
           onTrackSelect={handleTrackSelect}
-          formatTime={formatTime}
+          getDisplayDuration={getDisplayDuration}
         />
       </div>
     </div>
   );
-}
+});
+
+WorkingAudioModal.displayName = 'WorkingAudioModal';
+
+export default WorkingAudioModal;

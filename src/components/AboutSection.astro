@@ -1,0 +1,127 @@
+---
+// About Section Component
+---
+
+<section id="about" class="section-container scroll-mt-20">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-16 md:mb-20 animate-fade-in">
+      <h2 class="gradient-text text-balance mb-6">
+        About Me
+      </h2>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <!-- Left: Bio Text -->
+      <div class="order-2 lg:order-1 space-y-6 animate-slide-in-left">
+        <div class="space-y-4 text-text-secondary leading-relaxed text-lg">
+          <p>
+            I'm a singer, songwriter, guitarist and producer. Although I've worked across many genres throughout my career, rock and hard rock are where I feel most at home. There's something about the raw power of those heavy riffs that keeps pulling me back.
+          </p>
+
+          <p>
+            Beyond the music, I paint and sketch. I've designed all my album covers myself, developing a distinctive visual style that runs through my work. For me, the music and artwork aren't separate things—they're different ways of telling the same story. Whether it's the heavy intensity of <span class="text-accent-primary font-medium">"Fractured"</span> or the more introspective moments on <span class="text-accent-primary font-medium">"The Revealing"</span>, each album captures exactly where I was in life at that moment.
+          </p>
+
+          <p>
+            I've collaborated with many artists over the years, and recently started writing my first ebook, <span class="text-accent-primary font-medium">"The Visual Man."</span> It explores how music and visual art intersect to create something greater than either could achieve alone. That connection between sound and image has always fascinated me—the way words, music, and vision can all feed into each other.
+          </p>
+
+          <p>
+            When I'm in the studio, I use modern recording techniques. I'm not trying to recreate some vintage sound; I'm just bringing to life what I hear in my head. Each project is its own snapshot in time.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: Image -->
+      <div class="order-1 lg:order-2 animate-slide-in-right">
+        <div class="relative group">
+          <!-- Glow Effect -->
+          <div class="absolute -inset-4 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-gold rounded-3xl opacity-30 group-hover:opacity-50 blur-2xl transition-opacity duration-500"></div>
+
+          <!-- Image Container -->
+          <div class="relative rounded-3xl overflow-hidden border border-dark-border/50 shadow-premium-lg">
+            <img
+              src="/images/john-standing-professional.png"
+              alt="John Ciresi - Musician and Artist"
+              class="w-full h-auto aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+
+            <!-- Overlay Gradient -->
+            <div class="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent opacity-40"></div>
+
+            <!-- Name Tag -->
+            <div class="absolute bottom-6 left-6 right-6 p-6 rounded-2xl bg-dark-elevated/80 backdrop-blur-xl border border-white/10">
+              <h3 class="text-xl font-medium text-white/90 text-center tracking-wide">John Ciresi</h3>
+            </div>
+          </div>
+
+          <!-- Decorative Elements -->
+          <div class="absolute -top-8 -right-8 w-32 h-32 bg-accent-primary/20 rounded-full blur-3xl animate-pulse"></div>
+          <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-accent-secondary/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.8s ease-out 0.3s forwards;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-in-left,
+    .animate-slide-in-right {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

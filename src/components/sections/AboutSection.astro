@@ -18,25 +18,28 @@ const { class: className = '' } = Astro.props;
   
   <div class="max-w-4xl mx-auto px-6 relative z-10">
     <div class="text-center mb-20">
-      <h2 class="text-6xl sm:text-7xl font-extralight tracking-tight text-gray-900 mb-8">
+      <h2 class="text-6xl sm:text-7xl lg:text-8xl font-extralight tracking-tight text-gray-900 mb-8 animate-slide-up">
         ABOUT ME
       </h2>
-      <div class="w-24 h-px bg-gradient-to-r from-transparent via-gray-400/60 to-transparent mx-auto"></div>
+      <div class="w-24 h-px bg-gradient-to-r from-transparent via-gray-400/60 to-transparent mx-auto animate-shimmer"></div>
     </div>
     
     <div class="prose prose-lg max-w-none">
-      <div class="text-gray-700 leading-relaxed space-y-8 text-lg font-light">
-        <p class="text-xl md:text-2xl font-extralight text-gray-900 leading-relaxed">
+      <div class="text-gray-800 leading-relaxed space-y-8 text-lg font-light">
+        <p class="text-xl md:text-2xl lg:text-3xl font-extralight text-gray-900 leading-relaxed animate-fade-in" style="animation-delay: 0.2s;">
           Hi, I'm John.
         </p>
         
-        <p>
+        <p class="animate-fade-in" style="animation-delay: 0.4s;">
           I'm a musician who loves creating music that connects with people. Each song is a piece of my journey, and I'm grateful to share it with you.
         </p>
         
-        <p class="text-gray-600 italic">
-          "Music is the universal language that connects us all. Through my work, I hope to create moments of connection, understanding, and pure emotional resonance."
-        </p>
+        <div class="relative">
+          <div class="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-accent-500 to-accent-600 rounded-full"></div>
+          <blockquote class="text-gray-700 italic pl-8 animate-fade-in" style="animation-delay: 0.6s;">
+            "Music is the universal language that connects us all. Through my work, I hope to create moments of connection, understanding, and pure emotional resonance."
+          </blockquote>
+        </div>
       </div>
     </div>
   </div>

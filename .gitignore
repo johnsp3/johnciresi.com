@@ -28,6 +28,11 @@ secrets/
 # Newsletter subscriber data
 data/
 
+# Environment variable examples and complete configs
+*env-example*
+*ENVIRONMENT_VARIABLES*
+VERCEL_ENVIRONMENT_VARIABLES_COMPLETE.txt
+
 # macOS-specific files
 .DS_Store
 
@@ -35,3 +40,4 @@ data/
 .idea/
 .vercel
 .env*.local
+.env.vercel

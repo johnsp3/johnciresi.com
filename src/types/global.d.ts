@@ -15,6 +15,14 @@ declare module '*.astro?astro' {
 declare global {
   interface Window {
     openAudioPlayer?: (albumId?: string) => void;
+    Sentry?: {
+      addBreadcrumb: (breadcrumb: {
+        category: string;
+        message: string;
+        level: string;
+        data?: unknown;
+      }) => void;
+    };
   }
 }
 

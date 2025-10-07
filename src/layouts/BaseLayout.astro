@@ -1,237 +1,115 @@
 ---
+import '@/styles/global.css';
+
 export interface Props {
   title: string;
   description?: string;
   image?: string;
-  canonical?: string;
 }
 
-const { title, description = "Professional musician with 50,000 followers. Experience beautiful music, stunning visuals, and premium audio streaming.", image = "/images/og-image.jpg", canonical } = Astro.props;
+const {
+  title,
+  description = 'John Ciresi - Musician and artist creating powerful hard rock music. Explore albums, gallery, and creative journey.',
+  image = '/og-image.jpg',
+} = Astro.props;
 
-const canonicalURL = new URL(canonical || Astro.url.pathname, Astro.site);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.site);
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    
-    <!-- Canonical URL -->
+
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
-    
-    <!-- Open Graph / Facebook -->
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.site)} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="John Ciresi - Musician" />
-    <meta property="og:locale" content="en_US" />
-    
-    <!-- Twitter -->
+    <meta property="og:image" content={socialImageURL} />
+
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.site)} />
-    <meta property="twitter:creator" content="@johnciresi" />
-    <meta property="twitter:site" content="@johnciresi" />
+    <meta property="twitter:image" content={socialImageURL} />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MusicGroup",
+      "name": "John Ciresi",
+      "url": "https://johnciresi.com",
+      "genre": ["Rock", "Hard Rock", "Soft Rock"],
+      "description": description,
+    })} />
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     
-    <!-- Additional SEO Meta Tags -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="author" content="John Ciresi" />
-    <meta name="keywords" content="John Ciresi, musician, singer, guitarist, songwriter, rock music, hard rock, studio musician, visual artist, music, albums, discography, professional musician, guitar player, vocalist, songwriter, music producer, recording artist" />
-    <meta name="language" content="en" />
-    <meta name="revisit-after" content="7 days" />
-    <meta name="rating" content="general" />
-    <meta name="distribution" content="global" />
-    <meta name="geo.region" content="US" />
-    <meta name="geo.placename" content="United States" />
-    <meta name="classification" content="Music, Entertainment, Arts" />
-    <meta name="category" content="Music" />
-    <meta name="coverage" content="Worldwide" />
-    <meta name="target" content="all" />
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="MobileOptimized" content="320" />
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/images/John_Studio_High_quality_hero_poster.png" as="image" type="image/png" />
+    <link rel="preload" href="/images/albums/fractured-2024.png" as="image" type="image/png" />
+
+    <!-- Optimized font loading with font-display: swap -->
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!-- Critical CSS inline for above-the-fold content -->
+    <style>
+      /* Critical CSS for immediate rendering */
+      body { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+        background-color: #0a0a0a;
+        color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#0a0a0a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="John Ciresi" />
-    <meta name="format-detection" content="telephone=no" />
-    
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json" is:inline>
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "John Ciresi",
-      "description": "Professional musician, singer, guitarist, songwriter, and visual artist with 50,000+ followers",
-      "url": "https://johnciresi.com",
-      "image": "https://johnciresi.com/images/og-image.jpg",
-      "sameAs": [
-        "https://twitter.com/johnciresi",
-        "https://instagram.com/johnciresi"
-      ],
-      "jobTitle": "Musician",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "John Ciresi Music",
-        "url": "https://johnciresi.com"
-      },
-      "alumniOf": "Music Industry",
-      "knowsAbout": ["Music", "Rock Music", "Hard Rock", "Songwriting", "Guitar", "Visual Art", "Studio Recording"],
-      "hasOccupation": {
-        "@type": "Occupation",
-        "name": "Musician",
-        "occupationLocation": {
-          "@type": "Place",
-          "name": "United States"
-        }
-      },
-      "award": "Professional Musician",
-      "genre": ["Rock", "Hard Rock", "Alternative Rock"],
-      "instruments": ["Guitar", "Vocals"],
-      "foundingDate": "2020",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "media@johnciresi.com",
-        "contactType": "Business Inquiries"
-      }
-    }
-    </script>
-    
-    <!-- Additional Structured Data for Website -->
-    <script type="application/ld+json" is:inline>
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "John Ciresi - Professional Musician",
-      "url": "https://johnciresi.com",
-      "description": "Official website of John Ciresi, professional musician, singer, guitarist, and visual artist",
-      "author": {
-        "@type": "Person",
-        "name": "John Ciresi"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "John Ciresi Music"
-      },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://johnciresi.com/?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-    
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#3b82f6" />
-    <meta name="msapplication-TileColor" content="#3b82f6" />
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
-    
-    <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" href="/favicon.svg" />
-    
-    <title>{title}</title>
   </head>
-  <body class="min-h-screen bg-primary-50 dark:bg-primary-950 text-primary-900 dark:text-primary-50 transition-colors duration-300">
-    <!-- Skip links for accessibility -->
-    <div class="sr-only focus-within:not-sr-only focus-within:absolute focus-within:top-4 focus-within:left-4 z-50">
-      <a href="#main-content" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-600">
-        Skip to main content
-      </a>
-      <a href="#music" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-600">
-        Skip to discography
-      </a>
-      <a href="#gallery" class="block bg-accent-600 text-white px-4 py-2 rounded-lg mb-2 focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-600">
-        Skip to gallery
-      </a>
-      <a href="#contact" class="block bg-accent-600 text-white px-4 py-2 rounded-lg focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-600">
-        Skip to contact
-      </a>
-    </div>
-    
-    <!-- High contrast mode detection -->
-    <script is:inline>
-      // High contrast mode detection
-      if (window.matchMedia('(prefers-contrast: high)').matches) {
-        document.documentElement.classList.add('high-contrast');
-      }
-      
-      // Reduced motion detection
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.classList.add('reduce-motion');
-      }
-    </script>
-    
-    <!-- Main content -->
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent-primary focus:text-white focus:rounded-lg">
+      Skip to main content
+    </a>
+
     <main id="main-content">
       <slot />
     </main>
-    
-    <!-- Vercel Analytics - Will be added back when ready for production -->
-    
-    <!-- Theme detection script -->
-    <script is:inline>
-      // Theme detection and application
-      (function() {
-        const theme = localStorage.getItem('theme') || 
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-        
-        // Update theme preference
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-          if (!localStorage.getItem('theme')) {
-            document.documentElement.classList.toggle('dark', e.matches);
-          }
-        });
-      })();
-    </script>
-    
-    <!-- Performance tracking script -->
-    <script is:inline>
-      // Core Web Vitals tracking
-      (function() {
-        // Track LCP
-        if ('PerformanceObserver' in window) {
-          try {
-            const lcpObserver = new PerformanceObserver((list) => {
-              const entries = list.getEntries();
-              const lastEntry = entries[entries.length - 1];
-              if (lastEntry && process.env.NODE_ENV === 'development') {
-                console.log('LCP:', lastEntry.startTime + 'ms');
-              }
-            });
-            lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-          } catch (e) {
-            // Fallback for unsupported browsers
-          }
-        }
-        
-        // Track FCP
-        if ('PerformanceObserver' in window) {
-          try {
-            const fcpObserver = new PerformanceObserver((list) => {
-              const entries = list.getEntries();
-              const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
-              if (fcpEntry && process.env.NODE_ENV === 'development') {
-                console.log('FCP:', fcpEntry.startTime + 'ms');
-              }
-            });
-            fcpObserver.observe({ entryTypes: ['paint'] });
-          } catch (e) {
-            // Fallback for unsupported browsers
-          }
-        }
-      })();
-    </script>
   </body>
 </html>

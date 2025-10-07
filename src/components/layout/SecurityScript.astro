@@ -1,0 +1,30 @@
+---
+// Enhanced Security Script
+---
+
+<script>
+  // CSP Violation Reporting
+  document.addEventListener('securitypolicyviolation', (event) => {
+    // Send CSP violations to Sentry for monitoring
+    if (window.Sentry) {
+      window.Sentry.addBreadcrumb({
+        category: 'security',
+        message: 'CSP Violation detected',
+        level: 'warning',
+        data: {
+          violatedDirective: event.violatedDirective,
+          blockedURI: event.blockedURI,
+          sourceFile: event.sourceFile,
+          lineNumber: event.lineNumber,
+        },
+      });
+    }
+  });
+
+  // Security monitoring
+  if (process.env.NODE_ENV === 'development') {
+    import('@/utils/logger').then(({ logInfo }) => {
+      logInfo('Enhanced security monitoring active', { component: 'SecurityScript' });
+    });
+  }
+</script>

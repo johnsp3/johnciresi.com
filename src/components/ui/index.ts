@@ -6,5 +6,3 @@ export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as AlbumSelector } from '../interactive/AlbumSelector';
 export { default as FeaturedAlbum } from '../interactive/FeaturedAlbum';
 export { default as HeroButtons } from '../interactive/HeroButtons';
-export { default as NewsletterForm } from '../interactive/NewsletterForm';
-export { default as ContactForm } from '../interactive/ContactForm';

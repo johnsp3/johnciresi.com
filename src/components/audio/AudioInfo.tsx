@@ -1,5 +1,6 @@
 import React from 'react';
 import { X } from 'lucide-react';
+import OptimizedImage from '../ui/OptimizedImage';
 
 interface Track {
   id: string;
@@ -54,10 +55,13 @@ const AudioInfo: React.FC<AudioInfoProps> = ({
       <div className="mb-6 flex items-center space-x-4 sm:mb-8 sm:space-x-6">
         <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-gray-800 to-black sm:h-20 sm:w-20">
           {currentTrack.cover ? (
-            <img
+            <OptimizedImage
               src={currentTrack.cover}
               alt={currentTrack.title}
+              width={80}
+              height={80}
               className="h-full w-full rounded-xl object-cover"
+              loading="eager"
             />
           ) : (
             <div className="text-2xl text-white/60">🎵</div>

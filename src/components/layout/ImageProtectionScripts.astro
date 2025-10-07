@@ -1,0 +1,117 @@
+---
+// Image protection scripts
+---
+
+<!-- Image Protection Script -->
+<script is:inline>
+  // Enhanced image protection
+  (function() {
+    // Prevent right-click context menu on images
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+        return false;
+      }
+    });
+    
+    // Prevent drag and drop of images
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+        return false;
+      }
+    });
+    
+    // Prevent image selection
+    document.addEventListener('selectstart', function(e) {
+      if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+        return false;
+      }
+    });
+    
+    // Prevent F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S
+    document.addEventListener('keydown', function(e) {
+      // F12
+      if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+I (DevTools)
+      if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+U (View Source)
+      if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+S (Save)
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+A (Select All) - only prevent on images
+      if (e.ctrlKey && e.key === 'a' && e.target.tagName === 'IMG') {
+        e.preventDefault();
+        return false;
+      }
+    });
+    
+    // Disable text selection on images
+    document.addEventListener('mousedown', function(e) {
+      if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+        return false;
+      }
+    });
+    
+    // Add protection classes to all images
+    function protectImages() {
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        img.classList.add('image-protected');
+        img.setAttribute('draggable', 'false');
+        img.style.userSelect = 'none';
+        img.style.setProperty('-webkit-user-select', 'none');
+        img.style.mozUserSelect = 'none';
+        img.style.msUserSelect = 'none';
+        img.style.setProperty('-webkit-user-drag', 'none');
+        img.style.khtmlUserDrag = 'none';
+        img.style.mozUserDrag = 'none';
+        img.style.oUserDrag = 'none';
+        img.style.userDrag = 'none';
+        img.style.setProperty('-webkit-touch-callout', 'none');
+      });
+    }
+    
+    // Run on page load
+    protectImages();
+    
+    // Run when new images are added (for dynamic content)
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach(function(node) {
+            if (node.nodeType === 1) { // Element node
+              if (node.tagName === 'IMG') {
+                protectImages();
+              } else if (node.querySelectorAll) {
+                const newImages = node.querySelectorAll('img');
+                if (newImages.length > 0) {
+                  protectImages();
+                }
+              }
+            }
+          });
+        }
+      });
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  })();
+</script>

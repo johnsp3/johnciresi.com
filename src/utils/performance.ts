@@ -32,7 +32,9 @@ export function trackWebVitals() {
 
       // Log for development
       if (process.env.NODE_ENV === 'development') {
-        console.log('LCP:', lastEntry.startTime);
+        import('@/utils/logger').then(({ logPerformance }) => {
+          logPerformance('LCP', lastEntry.startTime, { component: 'Performance' });
+        });
       }
     });
 
@@ -54,7 +56,9 @@ export function trackWebVitals() {
         performanceMetrics.FCP = fcpEntry.startTime;
 
         if (process.env.NODE_ENV === 'development') {
-          console.log('FCP:', fcpEntry.startTime);
+          import('@/utils/logger').then(({ logPerformance }) => {
+            logPerformance('FCP', fcpEntry.startTime, { component: 'Performance' });
+          });
         }
       }
     });
@@ -78,7 +82,9 @@ export function trackWebVitals() {
           navigationEntry.responseStart - navigationEntry.requestStart;
 
         if (process.env.NODE_ENV === 'development') {
-          console.log('TTFB:', performanceMetrics.TTFB);
+          import('@/utils/logger').then(({ logPerformance }) => {
+            logPerformance('TTFB', performanceMetrics.TTFB, { component: 'Performance' });
+          });
         }
       }
     });
@@ -115,7 +121,9 @@ export function trackCLS() {
       performanceMetrics.CLS = clsValue;
 
       if (process.env.NODE_ENV === 'development') {
-        console.log('CLS:', clsValue);
+        import('@/utils/logger').then(({ logPerformance }) => {
+          logPerformance('CLS', clsValue, { component: 'Performance' });
+        });
       }
     });
 
@@ -141,7 +149,9 @@ export function trackFID() {
         performanceMetrics.FID = fidEntry.processingStart - fidEntry.startTime;
 
         if (process.env.NODE_ENV === 'development') {
-          console.log('FID:', performanceMetrics.FID);
+          import('@/utils/logger').then(({ logPerformance }) => {
+            logPerformance('FID', performanceMetrics.FID, { component: 'Performance' });
+          });
         }
       }
     });
@@ -175,7 +185,12 @@ export function initPerformanceTracking() {
   // Track page load performance
   window.addEventListener('load', () => {
     if (process.env.NODE_ENV === 'development') {
-      console.log('Page loaded. Performance metrics:', getPerformanceMetrics());
+      import('@/utils/logger').then(({ logInfo }) => {
+        logInfo('Page loaded. Performance metrics collected', { 
+          component: 'Performance',
+          metadata: getPerformanceMetrics()
+        });
+      });
     }
   });
 }
@@ -205,18 +220,13 @@ export function checkPerformanceBudget(): {
     const value = metrics[metric as keyof WebVitals];
     if (value !== undefined && value > budget) {
       violations.push(`${metric}: ${value}ms (budget: ${budget}ms)`);
-      
+
       // Log performance issue to error tracking system
-      logPerformanceIssue(
-        metric,
-        value,
-        budget,
-        {
-          component: 'performance-monitor',
-          action: 'budget-check',
-          metadata: { metric, value, budget }
-        }
-      );
+      logPerformanceIssue(metric, value, budget, {
+        component: 'performance-monitor',
+        action: 'budget-check',
+        metadata: { metric, value, budget },
+      });
     }
   });
 

@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search';
+  type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search' | 'textarea';
   placeholder?: string;
   value?: string;
   required?: boolean;
@@ -47,7 +47,7 @@ const inputId = id || name || `input-${Math.random().toString(36).substring(2, 1
     </label>
   )}
   
-  {type === 'textarea' as any ? (
+  {type === 'textarea' ? (
     <textarea
       id={inputId}
       name={name}

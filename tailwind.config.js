@@ -1,139 +1,121 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx,vue}'],
   darkMode: 'class',
   theme: {
     extend: {
-      // Apple-inspired color palette
       colors: {
-        // Primary colors - Apple-like grays
-        primary: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
-          950: '#020617',
+        // Apple's actual website background colors (2025) - softer
+        dark: {
+          bg: '#000000',           // Pure black like Apple
+          surface: '#1a1a1a',      // Softer dark surface
+          elevated: '#242424',     // Softer elevated surface
+          muted: '#2a2a2a',        // Softer muted surface
+          border: '#333333',       // Softer border color
         },
-        // Accent colors - Apple blue
+        // Apple's actual website colors (2025) - muted and sophisticated
         accent: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554',
+          primary: '#0066CC',      // Apple's main brand blue (interactive elements)
+          secondary: '#6E6E73',    // Apple's gray text (muted)
+          tertiary: '#8E8E93',     // Apple's light gray (subtle)
+          blue: '#0055B3',         // Apple's hover blue (darker)
         },
-        // Success colors - Apple green
-        success: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
-          950: '#052e16',
-        },
-        // Warning colors - Apple orange
-        warning: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
-          950: '#451a03',
-        },
-        // Error colors - Apple red
-        error: {
-          50: '#fef2f2',
-          100: '#fee2e2',
-          200: '#fecaca',
-          300: '#fca5a5',
-          400: '#f87171',
-          500: '#ef4444',
-          600: '#dc2626',
-          700: '#b91c1c',
-          800: '#991b1b',
-          900: '#7f1d1d',
-          950: '#450a0a',
+        // Apple's actual text colors
+        text: {
+          primary: '#1D1D1F',      // Apple's main text (Shark)
+          secondary: '#6E6E73',    // Apple's gray text
+          muted: '#8E8E93',        // Apple's muted text
+          inverse: '#FFFFFF',      // White text on dark backgrounds
         },
       },
-      // Apple-inspired typography
       fontFamily: {
         sans: [
+          'Inter var',
           '-apple-system',
           'BlinkMacSystemFont',
           'SF Pro Display',
-          'SF Pro Text',
           'system-ui',
           'sans-serif',
         ],
-        mono: ['SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'monospace'],
+        display: ['Inter var', 'SF Pro Display', 'system-ui', 'sans-serif'],
       },
-      // Apple-inspired spacing
+      fontSize: {
+        '7xl': '5rem',
+        '8xl': '6rem',
+        '9xl': '8rem',
+      },
       spacing: {
         18: '4.5rem',
+        22: '5.5rem',
         88: '22rem',
         128: '32rem',
       },
-      // Apple-inspired border radius
       borderRadius: {
-        xl: '1rem',
-        '2xl': '1.5rem',
-        '3xl': '2rem',
+        '4xl': '2rem',
+        '5xl': '3rem',
       },
-      // Apple-inspired shadows
       boxShadow: {
-        apple: '0 4px 16px 0 rgba(0, 0, 0, 0.1)',
-        'apple-lg': '0 8px 32px 0 rgba(0, 0, 0, 0.12)',
-        'apple-xl': '0 16px 64px 0 rgba(0, 0, 0, 0.15)',
-        'apple-inset': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+        glow: '0 0 40px rgba(0, 102, 204, 0.15)',
+        'glow-lg': '0 0 60px rgba(0, 102, 204, 0.2)',
+        'inner-glow': 'inset 0 0 20px rgba(0, 102, 204, 0.1)',
+        'premium': '0 20px 60px rgba(0, 0, 0, 0.3)',
+        'premium-lg': '0 30px 80px rgba(0, 0, 0, 0.4)',
       },
-      // Apple-inspired animations
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.5s ease-out',
-        'scale-in': 'scaleIn 0.3s ease-out',
-        'bounce-subtle': 'bounceSubtle 0.6s ease-in-out',
+        'fade-in': 'fadeIn 0.6s ease-out',
+        'fade-in-up': 'fadeInUp 0.6s ease-out',
+        'slide-in-left': 'slideInLeft 0.5s ease-out',
+        'slide-in-right': 'slideInRight 0.5s ease-out',
+        'scale-in': 'scaleIn 0.4s ease-out',
+        'float': 'float 6s ease-in-out infinite',
+        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+        'gradient-x': 'gradientX 3s ease infinite',
+        'gradient-y': 'gradientY 3s ease infinite',
+        'spin-slow': 'spin 8s linear infinite',
       },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(30px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideInLeft: {
+          '0%': { opacity: '0', transform: 'translateX(-30px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        slideInRight: {
+          '0%': { opacity: '0', transform: 'translateX(30px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         scaleIn: {
-          '0%': { transform: 'scale(0.95)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
+          '0%': { opacity: '0', transform: 'scale(0.9)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
         },
-        bounceSubtle: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-4px)' },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        pulseGlow: {
+          '0%, 100%': { boxShadow: '0 0 20px rgba(0, 102, 204, 0.15)' },
+          '50%': { boxShadow: '0 0 40px rgba(0, 102, 204, 0.3)' },
+        },
+        gradientX: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+        gradientY: {
+          '0%, 100%': { backgroundPosition: '50% 0%' },
+          '50%': { backgroundPosition: '50% 100%' },
         },
       },
-      // Apple-inspired backdrop blur
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-shimmer': 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+      },
       backdropBlur: {
         xs: '2px',
       },

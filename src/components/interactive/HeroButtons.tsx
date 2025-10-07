@@ -11,9 +11,12 @@ const HeroButtons: React.FC<HeroButtonsProps> = ({ className = '' }) => {
     } else {
       // Log warning for debugging in development only
       if (process.env.NODE_ENV === 'development') {
-        console.warn(
-          'Audio player not available. Make sure WorkingAudioHandler is loaded.'
-        );
+        import('@/utils/logger').then(({ logWarn }) => {
+          logWarn('Audio player not available. Make sure WorkingAudioHandler is loaded.', { 
+            component: 'HeroButtons',
+            action: 'handleListenToLatest'
+          });
+        });
       }
     }
   };

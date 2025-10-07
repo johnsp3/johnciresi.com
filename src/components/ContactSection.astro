@@ -1,0 +1,73 @@
+---
+// Contact Section Component
+---
+
+<section id="contact" class="section-container scroll-mt-20">
+  <div class="max-w-4xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-16 md:mb-20 animate-fade-in">
+      <h2 class="gradient-text text-balance mb-6">
+        Get In Touch
+      </h2>
+      <p class="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto">
+        Want to connect? Reach out through email or social media. I'd love to hear from you.
+      </p>
+    </div>
+
+    <!-- Email Contact Card - Centered -->
+    <div class="max-w-xl mx-auto mb-12 animate-fade-in-delay">
+      <div class="card-premium relative overflow-hidden block">
+        <div class="relative flex flex-col items-center text-center p-12">
+          <div class="w-20 h-20 rounded-2xl bg-accent-primary/10 flex items-center justify-center mb-6">
+            <svg class="w-10 h-10 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+
+          <h3 class="text-2xl font-bold text-text-primary mb-4">
+            Contact
+          </h3>
+          <p class="text-text-secondary text-lg mb-6">For inquiries and collaborations</p>
+          <p class="text-accent-primary font-medium text-xl">hello@johnciresi.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-delay {
+    animation: fadeIn 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in-delay-2 {
+    animation: fadeIn 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-fade-in-delay,
+    .animate-fade-in-delay-2 {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

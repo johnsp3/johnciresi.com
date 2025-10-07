@@ -1,0 +1,85 @@
+---
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+// Current projects - update this whenever you want to change what you're working on
+const currentProjects = [
+  {
+    id: 1,
+    title: 'New Album in Progress',
+    description: 'Working on new material that goes heavier than ever. Experimenting with seven-string guitars to bring more power and aggression to the music.',
+    category: 'Music'
+  },
+  {
+    id: 2,
+    title: 'The Visual Man E-Book',
+    description: 'Still writing. Taking longer than I thought, but I want it to be right.',
+    category: 'Writing'
+  },
+  {
+    id: 3,
+    title: 'Studio Sessions',
+    description: 'Going back through old tracks and seeing what they sound like with fresh production.',
+    category: 'Music'
+  }
+];
+---
+
+<!-- What I'm Working On Section -->
+<section id="working-on" class={`py-40 bg-dark-bg relative overflow-hidden ${className}`}>
+  <!-- Sophisticated Background Elements -->
+  <div class="absolute inset-0">
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-white/3 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/2 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 py-20 md:py-32 relative z-10">
+    <!-- Section Header -->
+    <div class="text-center mb-16 md:mb-20">
+      <h2 class="gradient-text text-balance mb-6">
+        What I'm Working On
+      </h2>
+      <p class="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto">
+        What's happening in the studio
+      </p>
+    </div>
+
+    <!-- Projects Grid - 3 columns on desktop, stacks on mobile/tablet -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {currentProjects.map((project) => (
+        <article class="group">
+          <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 h-full transition-all duration-700 hover:bg-white/10 hover:border-white/20 hover:transform hover:scale-105">
+            <!-- Category Badge -->
+            <div class="mb-6">
+              <span class="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                <span class="text-xs font-medium tracking-wide text-white/80 uppercase">
+                  {project.category}
+                </span>
+              </span>
+            </div>
+
+            <!-- Content -->
+            <div class="space-y-4">
+              <h3 class="text-xl sm:text-2xl font-extralight tracking-tight text-white group-hover:text-white/90 transition-colors duration-500">
+                {project.title}
+              </h3>
+              <p class="text-white/80 font-light leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+
+            <!-- Hover Effect -->
+            <div class="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <div class="w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

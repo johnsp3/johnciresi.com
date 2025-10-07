@@ -1,65 +1,54 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Navigation from '@/components/ui/Navigation.astro';
-import Footer from '@/components/ui/Footer.astro';
+import Navigation from '@/components/Navigation.astro';
+import Hero from '@/components/Hero.astro';
+import MusicSection from '@/components/MusicSection.astro';
+import AboutSection from '@/components/AboutSection.astro';
 import EBookSection from '@/components/ui/EBookSection.astro';
-import { ErrorBoundary } from '@/components/ui';
-import WorkingAudioHandler from '@/components/audio/WorkingAudioHandler';
-import HeroSection from '@/components/sections/HeroSection.astro';
-import DiscographySection from '@/components/sections/DiscographySection.astro';
-import GallerySection from '@/components/sections/GallerySection.astro';
-import AboutSection from '@/components/sections/AboutSection.astro';
-import ContactSection from '@/components/sections/ContactSection.astro';
-import '../styles/global.css';
+import GallerySection from '@/components/GallerySection.astro';
+import WorkingOnSection from '@/components/sections/WorkingOnSection.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import Footer from '@/components/Footer.astro';
+import AudioPlayerManager from '@/components/AudioPlayerManager';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 ---
 
-<BaseLayout title="John Ciresi">
-  <div class="min-h-screen bg-primary-50 dark:bg-primary-950">
-    <!-- Navigation -->
-    <Navigation />
+<BaseLayout title="John Ciresi - Musician & Artist">
+  <Navigation />
+  <Hero />
+  <MusicSection />
+  <AboutSection />
+  <EBookSection />
+  <GallerySection />
+  <WorkingOnSection />
+  <ContactSection />
+  <Footer />
 
-    <!-- Hero Section -->
-    <HeroSection />
-
-    <!-- Discography Section -->
-    <DiscographySection />
-
-    <!-- Section Separator -->
-    <div class="h-20 bg-gray-50"></div>
-
-    <!-- E-Book Section -->
-    <EBookSection />
-
-    <!-- Section Separator -->
-    <div class="h-20 bg-gray-50"></div>
-
-    <!-- Visual Gallery Section -->
-    <GallerySection />
-
-    <!-- Section Separator -->
-    <div class="h-20 bg-gray-50"></div>
-
-    <!-- About Me Section -->
-    <AboutSection />
-
-    <!-- Section Separator -->
-    <div class="h-20 bg-white relative">
-      <div class="absolute inset-0">
-        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
-      </div>
-    </div>
-
-    <!-- Contact Section -->
-    <ContactSection />
-
-    <!-- Footer -->
-    <Footer />
-  </div>
-
-  <!-- Audio Modal Handler -->
+  <!-- Audio Player Manager - Listens for AlbumCard click events and manages player state -->
   <ErrorBoundary client:load>
-    <WorkingAudioHandler client:load />
+    <AudioPlayerManager client:only="react" />
   </ErrorBoundary>
 
+  <!-- Performance Optimization Script -->
+  <script>
+    // Initialize performance tracking and optimizations
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const { initPerformanceTracking } = await import('@/utils/performance');
+        const { initPerformanceOptimizations } = await import('@/utils/performanceEnhancements');
+        
+        initPerformanceTracking();
+        initPerformanceOptimizations();
+          } catch (error) {
+            // Use dynamic import to avoid SSR issues
+            import('@/utils/logger').then(({ logWarn }) => {
+              logWarn('Performance optimizations failed to load', { 
+                component: 'Performance',
+                action: 'initOptimizations',
+                metadata: { error: error instanceof Error ? error.message : String(error) }
+              });
+            });
+          }
+    });
+  </script>
 </BaseLayout>

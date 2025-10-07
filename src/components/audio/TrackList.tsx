@@ -1,26 +1,18 @@
 import React from 'react';
-
-interface Track {
-  id: string;
-  title: string;
-  artist: string;
-  duration: number;
-  url: string;
-  cover?: string;
-}
+import type { TrackWithDuration } from '../../utils/audioDuration';
 
 interface TrackListProps {
-  tracks: Track[];
+  tracks: TrackWithDuration[];
   currentTrackIndex: number;
   onTrackSelect: (index: number) => void;
-  formatTime: (time: number) => string;
+  getDisplayDuration: (track: TrackWithDuration) => string;
 }
 
 const TrackList: React.FC<TrackListProps> = ({
   tracks,
   currentTrackIndex,
   onTrackSelect,
-  formatTime,
+  getDisplayDuration,
 }) => {
   if (tracks.length <= 1) return null;
 
@@ -48,7 +40,7 @@ const TrackList: React.FC<TrackListProps> = ({
                 <p className="text-xs text-white/50">{track.artist}</p>
               </div>
               <span className="text-xs text-white/50">
-                {formatTime(track.duration)}
+                {getDisplayDuration(track)}
               </span>
             </div>
           </button>

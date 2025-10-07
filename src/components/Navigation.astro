@@ -1,0 +1,210 @@
+---
+// Navigation.astro - Fixed navigation bar with glass morphism effect
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-dark-elevated/80 backdrop-blur-xl border-b border-white/5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="#" class="text-2xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent hover:opacity-80 transition-opacity">
+        John Ciresi
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#music" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-200">
+          Music
+        </a>
+        <a href="#about" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-200">
+          About
+        </a>
+        <a href="#gallery" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-200">
+          Gallery
+        </a>
+        <a href="#working-on" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-200">
+          Working On
+        </a>
+        <a href="#contact" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-200">
+          Contact
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-button"
+        class="md:hidden p-2 rounded-lg hover:bg-white/5 transition-colors"
+        aria-label="Toggle mobile menu"
+        aria-expanded="false"
+      >
+        <svg id="hamburger-icon" class="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg id="close-icon" class="w-6 h-6 text-text-primary hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Menu - Slide-in from right -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-40 md:hidden pointer-events-none"
+    aria-hidden="true"
+  >
+    <!-- Backdrop -->
+    <div
+      id="mobile-menu-backdrop"
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"
+    ></div>
+
+    <!-- Slide-in Menu -->
+    <div
+      id="mobile-menu-panel"
+      class="absolute top-0 right-0 bottom-0 w-64 bg-dark-elevated/95 backdrop-blur-xl border-l border-white/10 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out"
+    >
+      <div class="flex flex-col h-full">
+        <!-- Menu Header -->
+        <div class="flex items-center justify-between p-4 border-b border-white/5">
+          <span class="text-lg font-semibold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
+            Menu
+          </span>
+        </div>
+
+        <!-- Menu Links -->
+        <nav class="flex-1 px-4 py-6 space-y-2">
+          <a href="#music" class="mobile-nav-link block px-4 py-3 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/10 transition-all duration-200 text-lg">
+            Music
+          </a>
+          <a href="#gallery" class="mobile-nav-link block px-4 py-3 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/10 transition-all duration-200 text-lg">
+            Gallery
+          </a>
+          <a href="#about" class="mobile-nav-link block px-4 py-3 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/10 transition-all duration-200 text-lg">
+            About
+          </a>
+          <a href="#contact" class="mobile-nav-link block px-4 py-3 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/10 transition-all duration-200 text-lg">
+            Contact
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu elements
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+  const mobileMenuBackdrop = document.getElementById('mobile-menu-backdrop');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  let isMenuOpen = false;
+
+  // Function to open mobile menu
+  function openMobileMenu() {
+    isMenuOpen = true;
+    mobileMenu?.classList.remove('pointer-events-none');
+    mobileMenu?.setAttribute('aria-hidden', 'false');
+    mobileMenuButton?.setAttribute('aria-expanded', 'true');
+
+    // Show backdrop and slide in panel
+    setTimeout(() => {
+      mobileMenuBackdrop?.classList.remove('opacity-0');
+      mobileMenuBackdrop?.classList.add('opacity-100', 'pointer-events-auto');
+      mobileMenuPanel?.classList.remove('translate-x-full');
+      mobileMenuPanel?.classList.add('translate-x-0');
+    }, 10);
+
+    // Toggle icons
+    hamburgerIcon?.classList.add('hidden');
+    closeIcon?.classList.remove('hidden');
+
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Function to close mobile menu
+  function closeMobileMenu() {
+    isMenuOpen = false;
+    mobileMenuBackdrop?.classList.remove('opacity-100', 'pointer-events-auto');
+    mobileMenuBackdrop?.classList.add('opacity-0');
+    mobileMenuPanel?.classList.remove('translate-x-0');
+    mobileMenuPanel?.classList.add('translate-x-full');
+
+    // Toggle icons
+    hamburgerIcon?.classList.remove('hidden');
+    closeIcon?.classList.add('hidden');
+
+    // Re-enable body scroll
+    document.body.style.overflow = '';
+
+    // Update ARIA attributes after transition
+    setTimeout(() => {
+      mobileMenu?.classList.add('pointer-events-none');
+      mobileMenu?.setAttribute('aria-hidden', 'true');
+      mobileMenuButton?.setAttribute('aria-expanded', 'false');
+    }, 300);
+  }
+
+  // Toggle mobile menu on button click
+  mobileMenuButton?.addEventListener('click', () => {
+    if (isMenuOpen) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
+  });
+
+  // Close menu when clicking backdrop
+  mobileMenuBackdrop?.addEventListener('click', closeMobileMenu);
+
+  // Close mobile menu when clicking a link
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeMobileMenu();
+    });
+  });
+
+  // Keyboard accessibility - Close menu on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isMenuOpen) {
+      closeMobileMenu();
+    }
+  });
+
+  // Smooth scroll for all navigation links
+  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      if (href) {
+        const target = document.querySelector(href);
+        if (target) {
+          const offset = 80; // Account for fixed nav height
+          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  /* Glass morphism effect enhancement */
+  nav {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Smooth scroll behavior */
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+</style>

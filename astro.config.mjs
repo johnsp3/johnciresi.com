@@ -4,12 +4,18 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
-// https://astro.build/config
+// Premium 2025 Astro Configuration
 export default defineConfig({
-  integrations: [react(), tailwind(), sitemap()],
+  site: 'https://johnciresi.com',
+  integrations: [
+    react(),
+    tailwind({
+      applyBaseStyles: false,
+    }),
+    sitemap(),
+  ],
 
   vite: {
-    // Optimize for performance
     build: {
       target: 'esnext',
       minify: 'esbuild',
@@ -19,74 +25,47 @@ export default defineConfig({
           manualChunks: {
             'react-vendor': ['react', 'react-dom'],
             'ui-vendor': ['lucide-react', 'framer-motion'],
-            'astro-vendor': ['astro'],
+            'audio-vendor': ['web-audio-api'],
           },
-          // Optimize chunk naming
-          chunkFileNames: 'assets/[name]-[hash].js',
-          entryFileNames: 'assets/[name]-[hash].js',
-          assetFileNames: 'assets/[name]-[hash].[ext]',
         },
       },
-      // Enable source maps for production debugging
-      sourcemap: false,
-      // Optimize for size
-      reportCompressedSize: true,
-      chunkSizeWarningLimit: 1000,
     },
-    // Optimize dependencies
     optimizeDeps: {
       include: ['react', 'react-dom', 'lucide-react', 'framer-motion'],
     },
-    // Performance optimizations
     ssr: {
       noExternal: ['framer-motion'],
     },
-    // Enable experimental features for better performance
-    experimental: {
-      renderBuiltUrl(filename, { hostType }) {
-        if (hostType === 'js') {
-          return { js: `/${filename}` };
-        } else {
-          return { relative: true };
-        }
-      },
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
     },
   },
 
-  // Vercel adapter for static deployment
   adapter: vercel({
     webAnalytics: { enabled: false },
     speedInsights: { enabled: true },
+    imageService: true,
+    imagesConfig: {
+      sizes: [320, 640, 768, 1024, 1280, 1536],
+      formats: ['image/webp', 'image/avif'],
+      domains: [],
+    },
   }),
 
-  // Build optimizations
   build: {
-    assets: 'assets',
     inlineStylesheets: 'auto',
   },
 
-  // Image optimization
   image: {
-    domains: ['localhost'],
     service: {
       entrypoint: 'astro/assets/services/sharp',
-      config: {
-        limitInputPixels: false,
-      },
     },
+    remotePatterns: [],
   },
 
-  // Output configuration - static for now
   output: 'static',
-  site:
-    process.env.NODE_ENV === 'production'
-      ? 'https://johnciresi.com'
-      : 'http://localhost:3000',
-
-  // Compress output
   compressHTML: true,
 
-  // Server configuration
   server: {
     port: 3000,
     host: true,
